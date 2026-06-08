@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Careers at Kairox Studios - Join a small, serious team building ambitious games. No crunch. Full credits. Work that matters." />
+  <title>Careers - Kairox Studios</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/nav.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+
+  <style>
+    /* ---- Hero ---- */
+    .careers-hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding-top: 72px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .careers-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 60% 30%, rgba(45,106,159,0.07) 0%, transparent 55%),
+        radial-gradient(ellipse at 15% 80%, rgba(26,58,92,0.06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .careers-hero-content {
+      padding-inline: var(--gutter);
+      max-width: var(--max-width);
+      margin-inline: auto;
+      width: 100%;
+      padding-bottom: var(--space-12);
+      position: relative;
+      z-index: 1;
+    }
+
+    .careers-hero-label {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--color-text-3);
+      margin-bottom: var(--space-6);
+    }
+
+    .careers-hero-title {
+      font-family: var(--font-display);
+      font-size: var(--text-5xl);
+      font-weight: 400;
+      line-height: 0.95;
+      color: var(--color-text);
+      max-width: 16ch;
+      margin-bottom: var(--space-8);
+    }
+
+    .careers-hero-sub {
+      font-size: var(--text-xl);
+      color: var(--color-text-2);
+      font-weight: 300;
+      max-width: 52ch;
+      line-height: 1.6;
+    }
+
+    /* ---- Why Kairox ---- */
+    .why-section {
+      padding-block: var(--space-16);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: var(--space-12);
+      align-items: start;
+    }
+
+    .why-left {
+      position: sticky;
+      top: calc(72px + var(--space-12));
+    }
+
+    .why-statement {
+      font-family: var(--font-display);
+      font-size: var(--text-3xl);
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--color-text);
+      margin-top: var(--space-8);
+    }
+
+    .why-statement em {
+      font-style: normal;
+      color: var(--color-electric);
+    }
+
+    .why-right {}
+
+    .why-row {
+      display: grid;
+      grid-template-columns: 2rem 1fr;
+      gap: var(--space-6);
+      padding-block: var(--space-8);
+      border-bottom: 1px solid var(--color-border);
+      align-items: start;
+    }
+
+    .why-row:first-child {
+      border-top: 1px solid var(--color-border);
+    }
+
+    .why-icon {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-3);
+      padding-top: 4px;
+    }
+
+    .why-content {}
+
+    .why-title {
+      font-size: var(--text-base);
+      font-weight: 500;
+      color: var(--color-text);
+      margin-bottom: var(--space-2);
+    }
+
+    .why-body {
+      font-size: var(--text-sm);
+      color: var(--color-text-2);
+      line-height: 1.75;
+    }
+
+    /* ---- Stats ---- */
+    .stats-strip {
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .stats-inner {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .stat-item {
+      padding: var(--space-10) var(--space-8);
+      border-right: 1px solid var(--color-border);
+    }
+
+    .stat-item:last-child {
+      border-right: none;
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: var(--text-4xl);
+      font-weight: 400;
+      color: var(--color-text);
+      line-height: 1;
+      display: block;
+      margin-bottom: var(--space-2);
+    }
+
+    .stat-label {
+      font-size: var(--text-xs);
+      color: var(--color-text-3);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-family: var(--font-mono);
+    }
+
+    /* ---- Open Roles ---- */
+    .roles-section {
+      padding-block: var(--space-16);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .roles-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--space-8);
+      margin-bottom: var(--space-8);
+    }
+
+    .roles-filter {
+      display: flex;
+      gap: var(--space-3);
+    }
+
+    .filter-btn {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-text-3);
+      background: transparent;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: var(--space-2) var(--space-4);
+      cursor: pointer;
+      transition: all var(--duration-fast);
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      color: var(--color-text);
+      border-color: var(--color-border-2);
+    }
+
+    .role-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .role-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: var(--space-8);
+      align-items: center;
+      padding-block: var(--space-8);
+      border-bottom: 1px solid var(--color-border);
+      transition: background var(--duration-fast);
+      cursor: pointer;
+    }
+
+    .role-item:first-child {
+      border-top: 1px solid var(--color-border);
+    }
+
+    .role-item:hover {
+      background: var(--color-surface);
+      padding-inline: var(--space-4);
+    }
+
+    .role-item:hover .role-arrow {
+      transform: translate(4px, -4px);
+      opacity: 1;
+    }
+
+    .role-left {}
+
+    .role-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-2);
+      flex-wrap: wrap;
+    }
+
+    .role-dept {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--color-text-3);
+    }
+
+    .role-sep {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--color-border-2);
+      flex-shrink: 0;
+    }
+
+    .role-type {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.1em;
+      color: var(--color-electric);
+      text-transform: uppercase;
+    }
+
+    .role-title {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 400;
+      color: var(--color-text);
+      margin-bottom: var(--space-2);
+    }
+
+    .role-desc {
+      font-size: var(--text-sm);
+      color: var(--color-text-2);
+      line-height: 1.7;
+      max-width: 64ch;
+    }
+
+    .role-right {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      flex-shrink: 0;
+    }
+
+    .role-location {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-3);
+      letter-spacing: 0.1em;
+      white-space: nowrap;
+    }
+
+    .role-arrow {
+      font-size: var(--text-base);
+      color: var(--color-text-3);
+      transition: transform var(--duration-fast), opacity var(--duration-fast);
+      opacity: 0.5;
+    }
+
+    /* Role detail drawer */
+    .role-detail {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .role-detail.open {
+      max-height: 600px;
+    }
+
+    .role-detail-inner {
+      padding: var(--space-8) var(--space-8) var(--space-10);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-12);
+    }
+
+    .role-detail-section {}
+
+    .role-detail-heading {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-text-3);
+      margin-bottom: var(--space-5);
+    }
+
+    .role-detail-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .role-detail-list li {
+      font-size: var(--text-sm);
+      color: var(--color-text-2);
+      line-height: 1.6;
+      padding-left: var(--space-5);
+      position: relative;
+    }
+
+    .role-detail-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 9px;
+      width: 5px;
+      height: 1px;
+      background: var(--color-accent);
+    }
+
+    .role-apply-btn {
+      margin-top: var(--space-8);
+    }
+
+    /* ---- Benefits ---- */
+    .benefits-section {
+      padding-block: var(--space-12);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--color-border);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-top: var(--space-8);
+    }
+
+    .benefit-item {
+      background: var(--color-bg);
+      padding: var(--space-8);
+      transition: background var(--duration-fast);
+    }
+
+    .benefit-item:hover {
+      background: var(--color-surface);
+    }
+
+    .benefit-icon {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-4);
+      display: block;
+    }
+
+    .benefit-title {
+      font-size: var(--text-base);
+      font-weight: 500;
+      color: var(--color-text);
+      margin-bottom: var(--space-3);
+    }
+
+    .benefit-body {
+      font-size: var(--text-sm);
+      color: var(--color-text-2);
+      line-height: 1.7;
+    }
+
+    /* ---- Process ---- */
+    .process-section {
+      padding-block: var(--space-12);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-top: var(--space-8);
+      position: relative;
+    }
+
+    .process-steps::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 2rem;
+      right: 2rem;
+      height: 1px;
+      background: var(--color-border);
+      z-index: 0;
+    }
+
+    .process-step {
+      position: relative;
+      z-index: 1;
+      padding: 0 var(--space-6) 0 0;
+    }
+
+    .process-step:last-child {
+      padding-right: 0;
+    }
+
+    .step-number-wrap {
+      margin-bottom: var(--space-6);
+    }
+
+    .step-number {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-2);
+    }
+
+    .step-title {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      font-weight: 400;
+      color: var(--color-text);
+      margin-bottom: var(--space-3);
+    }
+
+    .step-body {
+      font-size: var(--text-sm);
+      color: var(--color-text-2);
+      line-height: 1.7;
+    }
+
+    .step-duration {
+      display: inline-block;
+      margin-top: var(--space-3);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-3);
+      letter-spacing: 0.1em;
+    }
+
+    /* ---- Open Application ---- */
+    .open-application-section {
+      padding-block: var(--space-12);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .open-application-inner {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: var(--space-10) var(--space-10);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: var(--space-12);
+      align-items: center;
+    }
+
+    .open-app-label {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-text-3);
+      margin-bottom: var(--space-4);
+    }
+
+    .open-app-title {
+      font-family: var(--font-display);
+      font-size: var(--text-3xl);
+      font-weight: 400;
+      color: var(--color-text);
+      line-height: 1.15;
+      margin-bottom: var(--space-4);
+      max-width: 28ch;
+    }
+
+    .open-app-body {
+      font-size: var(--text-base);
+      color: var(--color-text-2);
+      line-height: 1.7;
+      max-width: 50ch;
+    }
+
+    .open-app-actions {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      align-items: flex-end;
+      flex-shrink: 0;
+    }
+
+    .open-app-email {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-3);
+      letter-spacing: 0.1em;
+    }
+
+    @media (max-width: 1024px) {
+      .why-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .why-left {
+        position: static;
+      }
+
+      .stats-inner {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stat-item:nth-child(2) {
+        border-right: none;
+      }
+
+      .stat-item:nth-child(3),
+      .stat-item:nth-child(4) {
+        border-top: 1px solid var(--color-border);
+      }
+
+      .stat-item:nth-child(4) {
+        border-right: none;
+      }
+
+      .benefits-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .process-steps {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-8);
+      }
+
+      .process-steps::before {
+        display: none;
+      }
+
+      .open-application-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .open-app-actions {
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .roles-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .role-item {
+        grid-template-columns: 1fr;
+      }
+
+      .role-right {
+        display: none;
+      }
+
+      .role-detail-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .benefits-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .process-steps {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-inner {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo" aria-label="Kairox Studios home">
+      <span class="logo-kairox">KAIROX</span>
+      <span class="logo-studios">Studios</span>
+    </a>
+    <ul class="nav-links" role="list">
+      <li class="nav-dropdown-trigger">
+        <a href="index.html#games" aria-haspopup="true">Games</a>
+        <ul class="nav-dropdown" role="list">
+          <li><a href="veilborn.html"><span class="game-dot game-dot--veilborn" aria-hidden="true"></span>Veilborn</a></li>
+          <li><a href="kurogane.html"><span class="game-dot game-dot--kurogane" aria-hidden="true"></span>Kurogane</a></li>
+          <li><a href="neonfall.html"><span class="game-dot game-dot--neonfall" aria-hidden="true"></span>Neonfall</a></li>
+        </ul>
+      </li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="careers.html">Careers</a></li>
+    </ul>
+    <a href="careers.html" class="nav-cta">Join Us</a>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+</nav>
+
+<nav class="nav-mobile" id="nav-mobile" aria-label="Mobile navigation">
+  <a href="veilborn.html">Veilborn</a>
+  <a href="kurogane.html">Kurogane</a>
+  <a href="neonfall.html">Neonfall</a>
+  <a href="about.html">About</a>
+  <a href="careers.html">Careers</a>
+</nav>
+
+<!-- Hero -->
+<header class="careers-hero" role="banner">
+  <div class="careers-hero-content container">
+    <p class="careers-hero-label">Kairox Studios / Careers</p>
+    <h1 class="careers-hero-title">Build worlds with us.</h1>
+    <p class="careers-hero-sub">Small team. Serious work. Games that earn the time players spend on them. If that sentence resonates, you might belong here.</p>
+  </div>
+</header>
+
+<!-- Why Section -->
+<section class="why-section" aria-labelledby="why-heading">
+  <div class="container">
+    <div class="why-grid">
+      <div class="why-left reveal">
+        <p class="section-label">Why Kairox</p>
+        <h2 class="why-statement" id="why-heading">
+          A studio where your work ships with <em>your name on it.</em>
+        </h2>
+      </div>
+
+      <div class="why-right">
+        <div class="why-row reveal">
+          <span class="why-icon">01</span>
+          <div class="why-content">
+            <h3 class="why-title">No crunch, ever</h3>
+            <p class="why-body">We scope projects to match our team size. When timelines slip, we adjust scope, not schedules. The people who built this studio came from environments where crunch was normalized, and they started Kairox specifically to change that.</p>
+          </div>
+        </div>
+
+        <div class="why-row reveal">
+          <span class="why-icon">02</span>
+          <div class="why-content">
+            <h3 class="why-title">Full credits, always</h3>
+            <p class="why-body">Every contributor is credited in every game they worked on. No contractor exceptions. No contractor-versus-full-time distinctions in the credits roll. If you built something, your name is on it.</p>
+          </div>
+        </div>
+
+        <div class="why-row reveal">
+          <span class="why-icon">03</span>
+          <div class="why-content">
+            <h3 class="why-title">Ownership over titles</h3>
+            <p class="why-body">We do not have a hierarchy of titles. We have responsibilities. Every person on a project has a clearly defined area of ownership and the authority to make decisions within it without approvals from above.</p>
+          </div>
+        </div>
+
+        <div class="why-row reveal">
+          <span class="why-icon">04</span>
+          <div class="why-content">
+            <h3 class="why-title">Tools that match the ambition</h3>
+            <p class="why-body">We built our own engine because nothing else was right for what we make. We spend on good tools. We invest in proper hardware. We do not ask people to produce excellent work on inadequate infrastructure.</p>
+          </div>
+        </div>
+
+        <div class="why-row reveal">
+          <span class="why-icon">05</span>
+          <div class="why-content">
+            <h3 class="why-title">Games that need you</h3>
+            <p class="why-body">The kind of games we make are not possible at scale. They need people who are invested in them as creative objects, not as SKUs. If you want to work on something that genuinely requires your expertise, you will find it here.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<div class="stats-strip" aria-label="Studio at a glance">
+  <div class="container stats-inner">
+    <div class="stat-item reveal">
+      <span class="stat-number">28</span>
+      <span class="stat-label">Team members</span>
+    </div>
+    <div class="stat-item reveal">
+      <span class="stat-number">12+</span>
+      <span class="stat-label">Countries represented</span>
+    </div>
+    <div class="stat-item reveal">
+      <span class="stat-number">0</span>
+      <span class="stat-label">Crunch incidents</span>
+    </div>
+    <div class="stat-item reveal">
+      <span class="stat-number">100%</span>
+      <span class="stat-label">Remote-eligible roles</span>
+    </div>
+  </div>
+</div>
+
+<!-- Open Roles -->
+<section class="roles-section" id="open-roles" aria-labelledby="roles-heading">
+  <div class="container">
+    <div class="roles-header">
+      <div>
+        <p class="section-label">Open Positions</p>
+        <h2 class="section-title" id="roles-heading">Current Openings</h2>
+      </div>
+      <div class="roles-filter" role="group" aria-label="Filter roles by department">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="engineering">Engineering</button>
+        <button class="filter-btn" data-filter="art">Art</button>
+        <button class="filter-btn" data-filter="design">Design</button>
+      </div>
+    </div>
+
+    <div class="role-list" role="list">
+
+      <!-- Role 1 -->
+      <div class="role-item reveal" data-dept="engineering" role="listitem" tabindex="0" aria-expanded="false" data-role="senior-engine">
+        <div class="role-left">
+          <div class="role-meta">
+            <span class="role-dept">Engineering</span>
+            <span class="role-sep" aria-hidden="true"></span>
+            <span class="role-type">Full-Time</span>
+          </div>
+          <h3 class="role-title">Senior Engine Programmer</h3>
+          <p class="role-desc">Extend and improve the KX Engine's rendering pipeline. Work across rendering, physics, and systems-level code. You will own meaningful subsystems, not tickets.</p>
+        </div>
+        <div class="role-right">
+          <span class="role-location">Remote</span>
+          <span class="role-arrow" aria-hidden="true">&#8599;</span>
+        </div>
+      </div>
+      <div class="role-detail" id="detail-senior-engine" role="region" aria-label="Senior Engine Programmer details">
+        <div class="role-detail-inner">
+          <div class="role-detail-section">
+            <p class="role-detail-heading">What you will work on</p>
+            <ul class="role-detail-list">
+              <li>Rendering pipeline extensions including deferred shading and volumetric lighting improvements</li>
+              <li>Memory management and CPU/GPU synchronization at the engine core level</li>
+              <li>Profiling, identifying, and resolving performance bottlenecks across all three titles</li>
+              <li>Editor tooling that serves level designers and technical artists</li>
+            </ul>
+          </div>
+          <div class="role-detail-section">
+            <p class="role-detail-heading">What we are looking for</p>
+            <ul class="role-detail-list">
+              <li>5 or more years of C++ game engine development experience</li>
+              <li>Shipped at least one game on PC or console at a production role</li>
+              <li>Deep familiarity with Vulkan, DirectX 12, or Metal</li>
+              <li>Comfort working without prescribed specs; ownership mindset</li>
+            </ul>
+            <a href="mailto:jobs@kairoxstudios.com?subject=Senior Engine Programmer Application" class="btn btn--ghost role-apply-btn">Apply for this Role</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Role 2 -->
+      <div class="role-item reveal" data-dept="art" role="listitem" tabindex="0" aria-expanded="false" data-role="env-artist">
+        <div class="role-left">
+          <div class="role-meta">
+            <span class="role-dept">Art</span>
+            <span class="role-sep" aria-hidden="true"></span>
+            <span class="role-type">Full-Time</span>
+          </div>
+          <h3 class="role-title">Senior Environment Artist</h3>
+          <p class="role-desc">Create the spaces players will remember for years. You build environments that communicate atmosphere, history, and danger without relying on UI or explicit narrative.</p>
+        </div>
+        <div class="role-right">
+          <span class="role-location">Remote / EU preferred</span>
+          <span class="role-arrow" aria-hidden="true">&#8599;</span>
+        </div>
+      </div>
+      <div class="role-detail" id="detail-env-artist" role="region" aria-label="Senior Environment Artist details">
+        <div class="role-detail-inner">
+          <div class="role-detail-section">
+            <p class="role-detail-heading">What you will work on</p>
+            <ul class="role-detail-list">
+              <li>World building across multiple biomes for Veilborn's underworld setting</li>
+              <li>Modular asset kit development with strong attention to tile usage and variation</li>
+              <li>Close collaboration with the lighting artist to achieve the visual signature of each zone</li>
+              <li>Performance-conscious asset creation within technical budgets</li>
+            </ul>
+          </div>
+          <div class="role-detail-section">
+            <p class="role-detail-heading">What we are looking for</p>
+            <ul class="role-detail-list">
+              <li>Portfolio demonstrating shipped environment work with strong mood and atmosphere</li>
+              <li>Proficiency in Houdini for procedural asset generation a strong plus</li>
+              <li>Substance 3D expertise and comfort with PBR pipelines</li>
+              <li>Experience building content for dark, atmospheric settings specifically</li>
+            </ul>
+            <a href="mailto:jobs@kairoxstudios.com?subject=Senior Environment Artist Application" class="btn btn--ghost role-apply-btn">Apply for this Role</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Role 3 -->
+      <div class="role-item reveal" data-dept="design" role="listitem" tabindex="0" aria-expanded="false" data-role="combat-designer">
+        <div class="role-left">
+          <div class="role-meta">
+            <span class="role-dept">Design</span>
+            <span class="role-sep" aria-hidden="true"></span>
+            <span class="role-type">Full-Time</span>
+          </div>
+          <h3 class="role-title">Combat Systems Designer</h3>
+          <p class="role-desc">Design and iterate on combat across Kurogane and Neonfall. Player death should always feel deserved. Mastery should feel earned. The gap between both is your job.</p>
+        </div>
+        <div class="role-right">
+          <span class="role-location">Remote</span>
+          <span class="role-arrow" aria-hidden="true">&#8599;</span>
+        </div>
+      </div>
+      <div class="role-detail" id="detail-combat-designer" role="region" aria-label="Combat Systems Designer details">
+        <div class="role-detail-inner">
+          <div class="role-detail-section">
+            <p class="role-detail-heading">What you will work on</p>
+            <ul class="role-detail-list">
+              <li>Combat tuning for Kurogane's Yokai encounters: telegraphing, timing windows, damage curves</li>
+              <li>Weapons and ability systems design for Neonfall's operative loadout framework</li>
+              <li>Designing and iterating on permadeath implications at every stage of Kurogane's progression</li>
+              <li>Playtest coordination and data-driven iteration from internal and external sessions</li>
+            </ul>
+          </div>
+          <div class="role-detail-section">
+            <p class="role-detail-heading">What we are looking for</p>
+            <ul class="role-detail-list">
+              <li>Credited design work on at least one shipped action or action-RPG game</li>
+              <li>Deep personal investment in precision combat as a design discipline</li>
+              <li>Ability to prototype quickly in-engine, not just in docs</li>
+              <li>Willingness to play your own work critically and cut what isn't working</li>
+            </ul>
+            <a href="mailto:jobs@kairoxstudios.com?subject=Combat Systems Designer Application" class="btn btn--ghost role-apply-btn">Apply for this Role</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Role 4 -->
+      <div class="role-item reveal" data-dept="engineering" role="listitem" tabindex="0" aria-expanded="false" data-role="network-programmer">
+        <div class="role-left">
+          <div class="role-meta">
+            <span class="role-dept">Engineering</span>
+            <span class="role-sep" aria-hidden="true"></span>
+            <span class="role-type">Contract / Potential Full-Time</span>
+          </div>
+          <h3 class="role-title">Network Programmer</h3>
+          <p class="role-desc">Implement optional co-op infrastructure for Kurogane. Latency-tolerant architecture required. The single-player experience must not be compromised by the networking layer.</p>
+        </div>
+        <div class="role-right">
+          <span class="role-location">Remote</span>
+          <span class="role-arrow" aria-hidden="true">&#8599;</span>
+        </div>
+      </div>
+      <div class="role-detail" id="detail-network-programmer" role="region" aria-label="Network Programmer details">
+        <div class="role-detail-inner">
+          <div class="role-detail-section">
+            <p class="role-detail-heading">What you will work on</p>
+            <ul class="role-detail-list">
+              <li>Peer-to-peer architecture for 2-player asynchronous co-op in Kurogane</li>
+              <li>Rollback netcode implementation and latency compensation strategies</li>
+              <li>State synchronization with minimal footprint on the base game's simulation</li>
+            </ul>
+          </div>
+          <div class="role-detail-section">
+            <p class="role-detail-heading">What we are looking for</p>
+            <ul class="role-detail-list">
+              <li>Proven experience with rollback netcode implementation</li>
+              <li>C++ proficiency and comfort reading an unfamiliar engine codebase</li>
+              <li>Prior experience shipping multiplayer on PC and console simultaneously</li>
+            </ul>
+            <a href="mailto:jobs@kairoxstudios.com?subject=Network Programmer Application" class="btn btn--ghost role-apply-btn">Apply for this Role</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Benefits -->
+<section class="benefits-section" aria-labelledby="benefits-heading">
+  <div class="container">
+    <p class="section-label">Compensation and Benefits</p>
+    <h2 class="section-title" id="benefits-heading">What comes with the role</h2>
+
+    <div class="benefits-grid reveal-stagger">
+      <div class="benefit-item">
+        <span class="benefit-icon">PAY</span>
+        <h3 class="benefit-title">Competitive Salary</h3>
+        <p class="benefit-body">Benchmarked to senior-tier ranges in EU and NA markets. We pay the same regardless of where you are located. No location-adjusted pay.</p>
+      </div>
+      <div class="benefit-item">
+        <span class="benefit-icon">EQUITY</span>
+        <h3 class="benefit-title">Profit Sharing</h3>
+        <p class="benefit-body">A meaningful percentage of net revenue from titles you ship is distributed to the team. The better the games do, the better you do.</p>
+      </div>
+      <div class="benefit-item">
+        <span class="benefit-icon">TIME</span>
+        <h3 class="benefit-title">Flexible Hours</h3>
+        <p class="benefit-body">No core hours beyond a 4-hour overlap window. Work when your thinking is sharpest. Results are the measure, not presence.</p>
+      </div>
+      <div class="benefit-item">
+        <span class="benefit-icon">HEALTH</span>
+        <h3 class="benefit-title">Healthcare Coverage</h3>
+        <p class="benefit-body">Full medical, dental, and vision for you and dependents. For regions where public coverage applies, we provide a supplemental private plan.</p>
+      </div>
+      <div class="benefit-item">
+        <span class="benefit-icon">LEAVE</span>
+        <h3 class="benefit-title">Unlimited PTO</h3>
+        <p class="benefit-body">No PTO tracking. Leadership models taking real time off. We have a suggested minimum of 25 days annually because we want people rested, not depleted.</p>
+      </div>
+      <div class="benefit-item">
+        <span class="benefit-icon">SETUP</span>
+        <h3 class="benefit-title">Hardware Budget</h3>
+        <p class="benefit-body">Full workstation budget on day one, refreshed every three years. We include a peripheral and software budget for ongoing setup upgrades.</p>
+      </div>
+      <div class="benefit-item">
+        <span class="benefit-icon">GROW</span>
+        <h3 class="benefit-title">Learning Budget</h3>
+        <p class="benefit-body">Annual stipend for courses, conferences, and books. No approval required below the threshold. Attend the conference. Buy the thing that makes you better at your work.</p>
+      </div>
+      <div class="benefit-item">
+        <span class="benefit-icon">CREDIT</span>
+        <h3 class="benefit-title">Full Game Credits</h3>
+        <p class="benefit-body">Your name in the credits of every game you contributed to. Permanent, non-negotiable, applies to contractors and full-time staff equally.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Process -->
+<section class="process-section" aria-labelledby="process-heading">
+  <div class="container">
+    <p class="section-label">Hiring Process</p>
+    <h2 class="section-title" id="process-heading">What to expect</h2>
+
+    <div class="process-steps reveal-stagger">
+      <div class="process-step">
+        <div class="step-number-wrap">
+          <div class="step-number" aria-hidden="true">01</div>
+        </div>
+        <h3 class="step-title">Application</h3>
+        <p class="step-body">Send us your application, portfolio, and a short note about what you are looking to build and why Kairox specifically. Generic applications do not move forward.</p>
+        <span class="step-duration">Response within 5 business days</span>
+      </div>
+
+      <div class="process-step">
+        <div class="step-number-wrap">
+          <div class="step-number" aria-hidden="true">02</div>
+        </div>
+        <h3 class="step-title">Intro Call</h3>
+        <p class="step-body">A 30-minute conversation with someone from the relevant team. Not a formal interview. We want to understand your work and you want to understand ours. Mutual fit.</p>
+        <span class="step-duration">30 minutes</span>
+      </div>
+
+      <div class="process-step">
+        <div class="step-number-wrap">
+          <div class="step-number" aria-hidden="true">03</div>
+        </div>
+        <h3 class="step-title">Skills Review</h3>
+        <p class="step-body">A paid, bounded task relevant to the role. One week maximum. We review and discuss it together. We do not keep the work. You keep the fee regardless of outcome.</p>
+        <span class="step-duration">Paid / 1 week max</span>
+      </div>
+
+      <div class="process-step">
+        <div class="step-number-wrap">
+          <div class="step-number" aria-hidden="true">04</div>
+        </div>
+        <h3 class="step-title">Team Interview</h3>
+        <p class="step-body">A 90-minute session with 3 to 4 people you would work with directly. Focused on collaboration and judgment, not trivia. An offer follows within 48 hours if it is right.</p>
+        <span class="step-duration">90 minutes / Decision in 48 hrs</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Open Application -->
+<section class="open-application-section" aria-labelledby="open-app-heading">
+  <div class="container">
+    <div class="open-application-inner reveal">
+      <div>
+        <p class="open-app-label">Not seeing the right role?</p>
+        <h2 class="open-app-title" id="open-app-heading">Send us an open application.</h2>
+        <p class="open-app-body">
+          If you make things at a level we respect, tell us. Discipline matters less than the quality of your thinking and the quality of your work. We read every open application and respond to the ones that make us want to talk.
+        </p>
+      </div>
+      <div class="open-app-actions">
+        <a href="mailto:jobs@kairoxstudios.com?subject=Open Application" class="btn btn--primary">Send Application</a>
+        <span class="open-app-email">jobs@kairoxstudios.com</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="footer-logo">
+          <span class="logo-kairox">KAIROX</span>
+          <span class="logo-studios">Studios</span>
+        </a>
+        <p class="footer-tagline">We build worlds that don't let go. Independent AA game development.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Games</p>
+        <ul class="footer-links">
+          <li><a href="veilborn.html">Veilborn</a></li>
+          <li><a href="kurogane.html">Kurogane</a></li>
+          <li><a href="neonfall.html">Neonfall</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Studio</p>
+        <ul class="footer-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="careers.html">Careers</a></li>
+          <li><a href="about.html#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Press</p>
+        <ul class="footer-links">
+          <li><a href="#">Press Kit</a></li>
+          <li><a href="#">Media Inquiries</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-legal">&copy; 2026 Kairox Studios. All rights reserved.</p>
+      <div class="footer-social">
+        <a href="#">X / Twitter</a>
+        <a href="#">YouTube</a>
+        <a href="#">Discord</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/animations.js"></script>
+
+<script>
+(function () {
+  /* Role accordion */
+  const roleItems = document.querySelectorAll('.role-item');
+
+  roleItems.forEach(function (item) {
+    function toggle() {
+      const roleKey = item.dataset.role;
+      const detail = document.getElementById('detail-' + roleKey);
+      if (!detail) return;
+
+      const isOpen = detail.classList.contains('open');
+
+      /* Close all */
+      document.querySelectorAll('.role-detail.open').forEach(function (d) {
+        d.classList.remove('open');
+      });
+      document.querySelectorAll('.role-item[aria-expanded="true"]').forEach(function (i) {
+        i.setAttribute('aria-expanded', 'false');
+      });
+
+      if (!isOpen) {
+        detail.classList.add('open');
+        item.setAttribute('aria-expanded', 'true');
+      }
+    }
+
+    item.addEventListener('click', toggle);
+    item.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggle();
+      }
+    });
+  });
+
+  /* Department filter */
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const allRoles = document.querySelectorAll('.role-item, .role-detail');
+
+  filterBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      filterBtns.forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+
+      const filter = btn.dataset.filter;
+
+      document.querySelectorAll('.role-item').forEach(function (item) {
+        const detail = document.getElementById('detail-' + item.dataset.role);
+        const show = filter === 'all' || item.dataset.dept === filter;
+
+        item.style.display = show ? '' : 'none';
+        if (detail) detail.style.display = show ? '' : 'none';
+
+        /* Close open details when filtering */
+        if (!show && detail) {
+          detail.classList.remove('open');
+          item.setAttribute('aria-expanded', 'false');
+        }
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Veilborn - Every choice echoes in eternity. A cinematic solo narrative about a Greek oracle standing at the threshold of life and death." />
+  <title>Veilborn - Kairox Studios</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/nav.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+
+  <style>
+    /* =========================================
+       Veilborn - Black / Gold / Bordeaux theme
+       ========================================= */
+    :root {
+      --game-primary:   var(--veilborn-gold);
+      --game-secondary: var(--veilborn-brd);
+      --game-dim:       var(--veilborn-gold-dim);
+    }
+
+    .game-accent { color: var(--veilborn-gold); }
+
+    /* ---- Hero ---- */
+    .game-hero {
+      position: relative;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+    }
+
+    .game-hero-bg-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 25%;
+      z-index: -2;
+    }
+
+    #vb-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: var(--z-below);
+    }
+
+    .game-hero-gradient {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 40% 30%, rgba(139,35,70,0.18) 0%, transparent 55%),
+        radial-gradient(ellipse at 70% 70%, rgba(201,168,76,0.10) 0%, transparent 50%),
+        linear-gradient(to top, var(--color-bg) 0%, transparent 45%),
+        linear-gradient(to bottom, rgba(10,10,10,0.6) 0%, transparent 35%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .game-hero-content {
+      position: relative;
+      z-index: 1;
+      padding-inline: var(--gutter);
+      max-width: var(--max-width);
+      margin-inline: auto;
+      width: 100%;
+      padding-bottom: var(--space-12);
+    }
+
+    .game-hero-tag {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--veilborn-gold);
+      opacity: 0.7;
+      margin-bottom: var(--space-5);
+    }
+
+    .game-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(5rem, 15vw, 12rem);
+      font-weight: 400;
+      line-height: 0.88;
+      letter-spacing: 0.04em;
+      color: var(--color-text);
+      margin-bottom: var(--space-6);
+    }
+
+    .game-hero-quote {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--veilborn-gold);
+      opacity: 0.9;
+      margin-bottom: var(--space-6);
+      max-width: 45ch;
+    }
+
+    .game-hero-desc {
+      font-size: var(--text-base);
+      color: var(--color-text-2);
+      max-width: 52ch;
+      line-height: 1.75;
+      margin-bottom: var(--space-10);
+    }
+
+    .game-hero-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    .btn--veilborn {
+      --color-accent: var(--veilborn-gold);
+      background: var(--veilborn-gold);
+      color: #0a0806;
+      border: 1px solid transparent;
+    }
+
+    .btn--veilborn:hover {
+      background: #e0bc5a;
+      transform: translateY(-2px);
+    }
+
+    .btn--veilborn-ghost {
+      color: var(--veilborn-gold);
+      border: 1px solid rgba(201,168,76,0.35);
+    }
+
+    .btn--veilborn-ghost:hover {
+      border-color: rgba(201,168,76,0.7);
+      background: var(--veilborn-gold-dim);
+      transform: translateY(-2px);
+    }
+
+    /* ---- Divider with rune symbol ---- */
+    .rune-divider {
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+      margin-block: var(--space-10);
+      color: var(--color-border-2);
+    }
+
+    .rune-divider::before,
+    .rune-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--color-border);
+    }
+
+    .rune-symbol {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      letter-spacing: 0.3em;
+      color: var(--color-text-3);
+      opacity: 0.5;
+    }
+
+    /* ---- Story section ---- */
+    .story-section {
+      padding-block: var(--space-12);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: var(--space-10);
+      align-items: center;
+    }
+
+    .story-visual {
+      position: relative;
+      aspect-ratio: 3/4;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #0d0a06;
+    }
+
+    .story-visual-inner {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .story-visual-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, transparent 60%, var(--color-bg) 100%);
+    }
+
+    .story-visual-border {
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius);
+      border: 1px solid rgba(201,168,76,0.12);
+      pointer-events: none;
+    }
+
+    /* Decorative corner marks */
+    .story-visual::before,
+    .story-visual::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      z-index: 1;
+    }
+
+    .story-visual::before {
+      top: 12px;
+      left: 12px;
+      border-top: 1px solid rgba(201,168,76,0.4);
+      border-left: 1px solid rgba(201,168,76,0.4);
+    }
+
+    .story-visual::after {
+      bottom: 12px;
+      right: 12px;
+      border-bottom: 1px solid rgba(201,168,76,0.4);
+      border-right: 1px solid rgba(201,168,76,0.4);
+    }
+
+    .story-right {}
+
+    .story-lore {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--veilborn-gold);
+      opacity: 0.85;
+      margin-bottom: var(--space-8);
+      line-height: 1.4;
+    }
+
+    .story-body {
+      font-size: var(--text-base);
+      color: var(--color-text-2);
+      line-height: 1.85;
+      margin-bottom: var(--space-6);
+    }
+
+    .story-character {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-5);
+      padding: var(--space-6);
+      border: 1px solid var(--color-border);
+      border-left: 2px solid var(--veilborn-brd);
+      border-radius: var(--radius);
+      margin-top: var(--space-10);
+      background: rgba(139,35,70,0.04);
+    }
+
+    .story-character-title {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--veilborn-brd);
+      margin-bottom: var(--space-2);
+    }
+
+    .story-character-name {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      font-weight: 500;
+      color: var(--color-text);
+      margin-bottom: var(--space-3);
+    }
+
+    .story-character-desc {
+      font-size: var(--text-sm);
+      color: var(--color-text-2);
+      line-height: 1.7;
+    }
+
+    /* ---- World section ---- */
+    .world-section {
+      padding-block: var(--space-12);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .world-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: var(--space-4);
+      margin-top: var(--space-8);
+    }
+
+    .world-tile {
+      position: relative;
+      border-radius: var(--radius);
+      border: 1px solid var(--color-border);
+      overflow: hidden;
+      padding: var(--space-8);
+      background: var(--color-surface);
+      transition: border-color var(--duration-base);
+    }
+
+    .world-tile:hover {
+      border-color: rgba(201,168,76,0.18);
+    }
+
+    .world-tile--large {
+      grid-column: 1;
+      grid-row: 1 / 3;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .world-tile--large .world-tile-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.12) 0%, transparent 60%),
+        linear-gradient(to bottom, #120e06 0%, #0d0a06 100%);
+    }
+
+    .world-tile-icon {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--veilborn-gold);
+      opacity: 0.6;
+      margin-bottom: var(--space-5);
+      line-height: 1;
+    }
+
+    .world-tile-title {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      font-weight: 500;
+      color: var(--color-text);
+      margin-bottom: var(--space-3);
+    }
+
+    .world-tile-body {
+      font-size: var(--text-sm);
+      color: var(--color-text-2);
+      line-height: 1.75;
+    }
+
+    .world-tile-body strong {
+      color: var(--veilborn-gold);
+      font-weight: 500;
+    }
+
+    /* ---- Features (scroll-pinned aesthetic) ---- */
+    .features-section {
+      padding-block: var(--space-12);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: var(--space-8);
+    }
+
+    .feature-row {
+      display: grid;
+      grid-template-columns: 40px 1fr 1fr;
+      gap: var(--space-8);
+      padding-block: var(--space-10);
+      border-bottom: 1px solid var(--color-border);
+      align-items: start;
+      transition: background var(--duration-fast);
+    }
+
+    .feature-row:first-child {
+      border-top: 1px solid var(--color-border);
+    }
+
+    .feature-row:hover {
+      background: rgba(201,168,76,0.02);
+    }
+
+    .feature-num {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-3);
+      letter-spacing: 0.1em;
+      padding-top: 4px;
+    }
+
+    .feature-title {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      font-weight: 400;
+      color: var(--color-text);
+      padding-top: 2px;
+    }
+
+    .feature-body {
+      font-size: var(--text-sm);
+      color: var(--color-text-2);
+      line-height: 1.75;
+    }
+
+    /* ---- Status section ---- */
+    .status-section {
+      padding-block: var(--space-12);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-10);
+      align-items: center;
+    }
+
+    .status-tagline {
+      font-family: var(--font-display);
+      font-size: var(--text-3xl);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--veilborn-gold);
+      line-height: 1.3;
+      margin-bottom: var(--space-8);
+    }
+
+    .status-detail {
+      font-size: var(--text-sm);
+      color: var(--color-text-2);
+      line-height: 1.75;
+      margin-bottom: var(--space-8);
+    }
+
+    .wishlist-form {
+      display: flex;
+      gap: var(--space-3);
+      max-width: 420px;
+    }
+
+    .wishlist-input {
+      flex: 1;
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-border-2);
+      border-radius: var(--radius-sm);
+      padding: var(--space-4) var(--space-5);
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      color: var(--color-text);
+      outline: none;
+      transition: border-color var(--duration-fast);
+    }
+
+    .wishlist-input::placeholder {
+      color: var(--color-text-3);
+    }
+
+    .wishlist-input:focus {
+      border-color: var(--veilborn-gold);
+    }
+
+    .status-dev {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+
+    .dev-progress {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .dev-progress-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .dev-progress-title {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--color-text-2);
+    }
+
+    .dev-progress-pct {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--veilborn-gold);
+    }
+
+    .dev-progress-bar {
+      height: 2px;
+      background: var(--color-surface-3);
+      border-radius: 1px;
+      overflow: hidden;
+    }
+
+    .dev-progress-fill {
+      height: 100%;
+      background: var(--veilborn-gold);
+      border-radius: 1px;
+      transition: width 1.5s var(--ease-out);
+    }
+
+    @media (max-width: 1024px) {
+      .world-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+      }
+
+      .world-tile--large {
+        grid-column: 1 / 3;
+        grid-row: 1;
+      }
+
+      .story-grid,
+      .status-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .world-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .world-tile--large {
+        grid-column: 1;
+        grid-row: auto;
+      }
+
+      .feature-row {
+        grid-template-columns: 30px 1fr;
+        grid-template-rows: auto auto;
+      }
+
+      .feature-body {
+        grid-column: 2;
+      }
+
+      .wishlist-form {
+        flex-direction: column;
+        max-width: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo" aria-label="Kairox Studios home">
+      <span class="logo-kairox">KAIROX</span>
+      <span class="logo-studios">Studios</span>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li class="nav-dropdown-trigger">
+        <a href="index.html#games" aria-haspopup="true">Games</a>
+        <ul class="nav-dropdown" role="list">
+          <li><a href="veilborn.html"><span class="game-dot game-dot--veilborn" aria-hidden="true"></span>Veilborn</a></li>
+          <li><a href="kurogane.html"><span class="game-dot game-dot--kurogane" aria-hidden="true"></span>Kurogane</a></li>
+          <li><a href="neonfall.html"><span class="game-dot game-dot--neonfall" aria-hidden="true"></span>Neonfall</a></li>
+        </ul>
+      </li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="careers.html">Careers</a></li>
+    </ul>
+
+    <a href="careers.html" class="nav-cta">Join Us</a>
+
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+</nav>
+
+<nav class="nav-mobile" id="nav-mobile" aria-label="Mobile navigation">
+  <a href="veilborn.html">Veilborn</a>
+  <a href="kurogane.html">Kurogane</a>
+  <a href="neonfall.html">Neonfall</a>
+  <a href="about.html">About</a>
+  <a href="careers.html">Careers</a>
+</nav>
+
+<!-- Hero -->
+<section class="game-hero" aria-label="Veilborn hero">
+  <img class="game-hero-bg-img" src="assets/veilborn-hero.jpg" alt="" aria-hidden="true" />
+  <canvas id="vb-canvas" aria-hidden="true"></canvas>
+  <div class="game-hero-gradient" aria-hidden="true"></div>
+
+  <div class="game-hero-content container">
+    <p class="game-hero-tag">Kairox Studios / Veilborn</p>
+    <h1 class="game-hero-title">Veilborn</h1>
+    <p class="game-hero-quote">"Every choice echoes in eternity."</p>
+    <p class="game-hero-desc">
+      You are Lysara, Oracle of the Threshold. The gods have gone silent. The dead refuse their rest. What you divine shapes not just your fate, but the fate of every soul caught between worlds.
+    </p>
+    <div class="game-hero-actions">
+      <a href="#wishlist" class="btn btn--veilborn">Add to Wishlist</a>
+      <a href="#story" class="btn btn--veilborn-ghost btn">Explore the World</a>
+    </div>
+  </div>
+</section>
+
+<!-- Story Section -->
+<section class="story-section" id="story" aria-labelledby="story-heading">
+  <div class="container">
+    <p class="section-label" style="color: var(--veilborn-gold); opacity: 0.7">The Oracle</p>
+    <div class="story-grid">
+      <div class="story-visual reveal" role="img" aria-label="Lysara, oracle standing at the threshold between life and the underworld">
+        <img class="story-visual-inner" src="assets/veilborn-portrait.jpg" alt="Lysara at the threshold of the underworld" loading="lazy" />
+        <div class="story-visual-overlay" aria-hidden="true"></div>
+        <div class="story-visual-border" aria-hidden="true"></div>
+      </div>
+
+      <div class="story-right reveal">
+        <p class="story-lore">"The threshold is not a place. It is a moment between heartbeats."</p>
+        <p class="story-body">
+          Greece, an age the gods abandoned. Temples crumble. Oracles fall silent. But Lysara still hears them: the voices of the restless dead, the whispers of forgotten prophecy, the sound of choices not yet made.
+        </p>
+        <p class="story-body">
+          To restore balance between the living and the realm below, she must descend. Every vision she receives is both gift and burden. Every soul she judges becomes part of her.
+        </p>
+
+        <div class="story-character">
+          <div>
+            <p class="story-character-title">Protagonist</p>
+            <p class="story-character-name">Lysara</p>
+            <p class="story-character-desc">Oracle of the Threshold. Daughter of a dying priesthood. She carries the weight of divine sight in a world that no longer believes in it.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- World Section -->
+<section class="world-section" aria-labelledby="world-heading">
+  <div class="container">
+    <p class="section-label" style="color: var(--veilborn-gold); opacity: 0.7">The Underworld</p>
+    <h2 class="section-title" id="world-heading">A World Between Worlds</h2>
+    <p class="section-sub">The realm below shifts with every choice Lysara makes above. This is not a static labyrinth. It is a living consequence.</p>
+
+    <div class="world-grid reveal-stagger">
+      <div class="world-tile world-tile--large">
+        <div class="world-tile-bg" aria-hidden="true"></div>
+        <div style="position:relative; z-index:1">
+          <p class="world-tile-icon" aria-hidden="true">&#x2665;</p>
+          <h3 class="world-tile-title">The Asphodel Fields</h3>
+          <p class="world-tile-body">A gray plain stretching beyond sight. Souls with no judgment wander here. <strong>Every interaction is a story waiting to be finished.</strong> Some have been waiting for centuries. Lysara carries the only torch that lets them be seen.</p>
+        </div>
+      </div>
+
+      <div class="world-tile">
+        <p class="world-tile-icon" aria-hidden="true">&#x2698;</p>
+        <h3 class="world-tile-title">Elysium's Edge</h3>
+        <p class="world-tile-body">Reserved for the worthy. Access is earned, not given. The criteria shift based on how Lysara has judged others.</p>
+      </div>
+
+      <div class="world-tile">
+        <p class="world-tile-icon" aria-hidden="true">&#x2620;</p>
+        <h3 class="world-tile-title">Tartarus Depths</h3>
+        <p class="world-tile-body">Where the punished are kept. But punishment, Lysara discovers, is rarely as simple as the gods decreed.</p>
+      </div>
+
+      <div class="world-tile">
+        <p class="world-tile-icon" aria-hidden="true">&#x2640;</p>
+        <h3 class="world-tile-title">The Styx Crossing</h3>
+        <p class="world-tile-body">Charon's ferry runs on debt. What Lysara owes grows with each descent. Payment comes in memory.</p>
+      </div>
+
+      <div class="world-tile">
+        <p class="world-tile-icon" aria-hidden="true">&#x2609;</p>
+        <h3 class="world-tile-title">The Oracle's Sanctum</h3>
+        <p class="world-tile-body">The only place Lysara can rest without vision. But the walls have heard every prophecy ever spoken.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="features-section" aria-labelledby="features-heading">
+  <div class="container">
+    <p class="section-label" style="color: var(--veilborn-gold); opacity: 0.7">Mechanics</p>
+    <h2 class="section-title" id="features-heading">Built for the Solitary Journey</h2>
+
+    <div class="features-list reveal">
+      <div class="feature-row">
+        <span class="feature-num">01</span>
+        <h3 class="feature-title">Oracle Sight</h3>
+        <p class="feature-body">Activate vision to see the true nature of a soul, place, or moment. Each vision costs something. Use it without thought and you will run dry at the worst possible moment.</p>
+      </div>
+      <div class="feature-row">
+        <span class="feature-num">02</span>
+        <h3 class="feature-title">Judgment System</h3>
+        <p class="feature-body">Every soul Lysara encounters carries a history. You decide what they deserve. Your choices ripple through the world above: weather, allegiances, the shape of prophecy itself.</p>
+      </div>
+      <div class="feature-row">
+        <span class="feature-num">03</span>
+        <h3 class="feature-title">Memory Weave</h3>
+        <p class="feature-body">Collect fragments of the dead's memories. Piece them together to unlock hidden truths, new paths, or the ability to alter what has already happened. Some truths cost more than others.</p>
+      </div>
+      <div class="feature-row">
+        <span class="feature-num">04</span>
+        <h3 class="feature-title">Cinematic Narrative</h3>
+        <p class="feature-body">No combat systems. No experience points. Veilborn is a pure narrative action experience. Every scene, every confrontation, is authored and directed. The player shapes the story, not the numbers.</p>
+      </div>
+      <div class="feature-row">
+        <span class="feature-num">05</span>
+        <h3 class="feature-title">Consequence Architecture</h3>
+        <p class="feature-body">Decisions made in hour one reshape what is possible in hour twelve. There are no morality meters. The world simply becomes what Lysara's choices have made it, without judgment.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Status and Wishlist -->
+<section class="status-section" id="wishlist" aria-labelledby="status-heading">
+  <div class="container">
+    <div class="status-grid">
+      <div class="reveal">
+        <p class="section-label" style="color: var(--veilborn-gold); opacity: 0.7">In Development</p>
+        <h2 class="status-tagline" id="status-heading">"The threshold has always been there. Now, finally, you can cross it."</h2>
+        <p class="status-detail">Veilborn is currently in active development for PC, PlayStation 5, and Xbox Series X. Wishlist now to receive updates when they matter.</p>
+
+        <form class="wishlist-form" action="#" method="post" novalidate aria-label="Wishlist signup">
+          <label for="wishlist-email" class="visually-hidden">Your email address</label>
+          <input
+            type="email"
+            id="wishlist-email"
+            name="email"
+            class="wishlist-input"
+            placeholder="your@email.com"
+            autocomplete="email"
+          />
+          <button type="submit" class="btn btn--veilborn">Notify Me</button>
+        </form>
+
+        <div class="platform-row" style="margin-top: var(--space-8)">
+          <span class="platform-badge">PC</span>
+          <span class="platform-badge">PS5</span>
+          <span class="platform-badge">Xbox Series X</span>
+        </div>
+      </div>
+
+      <div class="status-dev reveal">
+        <p class="section-label" style="margin-bottom: var(--space-8); color: var(--veilborn-gold); opacity: 0.7">Development Progress</p>
+
+        <div class="dev-progress">
+          <div class="dev-progress-label">
+            <span class="dev-progress-title">Core Narrative</span>
+            <span class="dev-progress-pct">87%</span>
+          </div>
+          <div class="dev-progress-bar"><div class="dev-progress-fill" style="width: 87%"></div></div>
+        </div>
+
+        <div class="dev-progress" style="margin-top: var(--space-6)">
+          <div class="dev-progress-label">
+            <span class="dev-progress-title">World Design</span>
+            <span class="dev-progress-pct">72%</span>
+          </div>
+          <div class="dev-progress-bar"><div class="dev-progress-fill" style="width: 72%"></div></div>
+        </div>
+
+        <div class="dev-progress" style="margin-top: var(--space-6)">
+          <div class="dev-progress-label">
+            <span class="dev-progress-title">Visual Fidelity</span>
+            <span class="dev-progress-pct">61%</span>
+          </div>
+          <div class="dev-progress-bar"><div class="dev-progress-fill" style="width: 61%"></div></div>
+        </div>
+
+        <div class="dev-progress" style="margin-top: var(--space-6)">
+          <div class="dev-progress-label">
+            <span class="dev-progress-title">Audio Score</span>
+            <span class="dev-progress-pct">44%</span>
+          </div>
+          <div class="dev-progress-bar"><div class="dev-progress-fill" style="width: 44%"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Other Games -->
+<section class="section--tight" style="border-top: 1px solid var(--color-border); padding-block: var(--space-16)">
+  <div class="container">
+    <p class="section-label" style="margin-bottom: var(--space-8)">Also from Kairox Studios</p>
+    <div style="display: flex; gap: var(--space-4); flex-wrap: wrap">
+      <a href="kurogane.html" class="btn btn--ghost" style="color: var(--kurogane-crimson); border-color: rgba(192,57,43,0.3)">Kurogane</a>
+      <a href="neonfall.html" class="btn btn--ghost" style="color: var(--neonfall-cyan); border-color: rgba(0,229,255,0.25)">Neonfall</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="footer-logo">
+          <span class="logo-kairox">KAIROX</span>
+          <span class="logo-studios">Studios</span>
+        </a>
+        <p class="footer-tagline">We build worlds that don't let go. Independent AA game development.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Games</p>
+        <ul class="footer-links">
+          <li><a href="veilborn.html">Veilborn</a></li>
+          <li><a href="kurogane.html">Kurogane</a></li>
+          <li><a href="neonfall.html">Neonfall</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Studio</p>
+        <ul class="footer-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="careers.html">Careers</a></li>
+          <li><a href="about.html#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Press</p>
+        <ul class="footer-links">
+          <li><a href="#">Press Kit</a></li>
+          <li><a href="#">Media Inquiries</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-legal">&copy; 2026 Kairox Studios. All rights reserved.</p>
+      <div class="footer-social">
+        <a href="#">X / Twitter</a>
+        <a href="#">YouTube</a>
+        <a href="#">Discord</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/animations.js"></script>
+
+<script>
+(function () {
+  /* ============================================================
+     Veilborn - Atmospheric Canvas: Gold soul particles
+     Rising spirits with ancient temple depth.
+     ============================================================ */
+  const canvas = document.getElementById('vb-canvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  let W = 0, H = 0;
+  const particles = [];
+
+  function resize() {
+    W = canvas.width  = canvas.clientWidth;
+    H = canvas.height = canvas.clientHeight;
+  }
+
+  const ro = new ResizeObserver(resize);
+  ro.observe(canvas);
+  resize();
+
+  /* Particle factory */
+  function makeParticle() {
+    return {
+      x:      Math.random() * W,
+      y:      H + Math.random() * 60,
+      r:      0.4 + Math.random() * 1.4,
+      vy:    -(0.18 + Math.random() * 0.55),
+      vx:     (Math.random() - 0.5) * 0.22,
+      alpha:  0.0,
+      maxA:   0.12 + Math.random() * 0.22,
+      phase:  Math.random() * Math.PI * 2,
+      freq:   0.0003 + Math.random() * 0.0006,
+      gold:   Math.random() > 0.65,
+    };
+  }
+
+  /* Seed initial particles */
+  for (let i = 0; i < 120; i++) {
+    const p = makeParticle();
+    p.y = Math.random() * H;
+    particles.push(p);
+  }
+
+  let raf;
+  let tick = 0;
+
+  function draw() {
+    raf = requestAnimationFrame(draw);
+    tick++;
+
+    ctx.clearRect(0, 0, W, H);
+
+    /* Spawn new particles */
+    if (tick % 4 === 0 && particles.length < 160) {
+      particles.push(makeParticle());
+    }
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+
+      /* Fade in then out */
+      const progress = 1 - (p.y / H);
+      if (progress < 0.15) {
+        p.alpha = Math.min(p.alpha + 0.004, p.maxA * (progress / 0.15));
+      } else if (progress > 0.75) {
+        p.alpha = Math.max(0, p.alpha - 0.003);
+      } else {
+        p.alpha = Math.min(p.alpha + 0.003, p.maxA);
+      }
+
+      /* Gentle sinusoidal drift */
+      const wobble = Math.sin(tick * p.freq * 1000 + p.phase) * 0.28;
+
+      p.x  += p.vx + wobble;
+      p.y  += p.vy;
+
+      /* Remove when offscreen */
+      if (p.y < -20 || p.alpha <= 0) {
+        particles.splice(i, 1);
+        continue;
+      }
+
+      /* Draw */
+      ctx.save();
+      ctx.globalAlpha = p.alpha;
+
+      const color = p.gold ? 'rgba(201,168,76,' : 'rgba(139,35,70,';
+      const grad  = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 2.5);
+      grad.addColorStop(0, color + '1)');
+      grad.addColorStop(1, color + '0)');
+
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r * 2.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  /* Pause when off-screen */
+  const obs = new IntersectionObserver(function (entries) {
+    if (entries[0].isIntersecting) draw();
+    else cancelAnimationFrame(raf);
+  }, { threshold: 0.01 });
+
+  obs.observe(canvas.closest('.game-hero') || canvas);
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    cancelAnimationFrame(raf);
+  }
+})();
+</script>
+
+</body>
+</html>

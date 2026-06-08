@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Neonfall - The city never sleeps. It just hunts. Operative Sera Vale navigates Nexus Prime in 2147, a megacity that breathes, bleeds, and never forgives." />
+  <title>Neonfall - Kairox Studios</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/nav.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+
+  <style>
+    /* =========================================
+       Neonfall - Black / Cyan / Neon Purple
+       ========================================= */
+
+    /* ---- Hero ---- */
+    .game-hero-bg-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 20%;
+      z-index: -2;
+    }
+
+    .game-hero {
+      position: relative;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+    }
+
+    #nf-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: var(--z-below);
+    }
+
+    .game-hero-gradient {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 60% 40%, rgba(0,229,255,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 20% 70%, rgba(155,89,182,0.12) 0%, transparent 45%),
+        linear-gradient(to top, var(--color-bg) 0%, transparent 45%),
+        linear-gradient(to bottom, rgba(6,9,13,0.7) 0%, transparent 35%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .game-hero-content {
+      position: relative;
+      z-index: 1;
+      padding-inline: var(--gutter);
+      max-width: var(--max-width);
+      margin-inline: auto;
+      width: 100%;
+      padding-bottom: var(--space-12);
+    }
+
+    .game-hero-tag {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--neonfall-cyan);
+      opacity: 0.7;
+      margin-bottom: var(--space-5);
+    }
+
+    .game-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(5rem, 15vw, 12rem);
+      font-weight: 400;
+      line-height: 0.88;
+      letter-spacing: 0.04em;
+      color: var(--color-text);
+      margin-bottom: var(--space-6);
+    }
+
+    .game-hero-year {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.5em;
+      color: var(--neonfall-purple);
+      opacity: 0.6;
+      margin-bottom: var(--space-5);
+      text-transform: uppercase;
+    }
+
+    .game-hero-quote {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--neonfall-cyan);
+      opacity: 0.9;
+      margin-bottom: var(--space-6);
+      max-width: 42ch;
+    }
+
+    .game-hero-desc {
+      font-size: var(--text-base);
+      color: var(--color-text-2);
+      max-width: 52ch;
+      line-height: 1.75;
+      margin-bottom: var(--space-10);
+    }
+
+    .game-hero-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    .btn--neonfall {
+      background: var(--neonfall-cyan);
+      color: #060d10;
+      border: 1px solid transparent;
+      font-weight: 600;
+    }
+
+    .btn--neonfall:hover {
+      background: #33eeff;
+      transform: translateY(-2px);
+    }
+
+    .btn--neonfall-ghost {
+      color: var(--neonfall-purple);
+      border: 1px solid rgba(155,89,182,0.35);
+    }
+
+    .btn--neonfall-ghost:hover {
+      border-color: rgba(155,89,182,0.65);
+      background: rgba(155,89,182,0.08);
+      transform: translateY(-2px);
+    }
+
+    /* ---- Data strip ---- */
+    .data-strip {
+      background: rgba(0,229,255,0.04);
+      border-top: 1px solid rgba(0,229,255,0.1);
+      border-bottom: 1px solid rgba(0,229,255,0.1);
+      padding: var(--space-4) 0;
+      overflow: hidden;
+    }
+
+    .data-strip-inner {
+      display: flex;
+      gap: var(--space-16);
+      animation: dataScroll 18s linear infinite;
+    }
+
+    .data-strip-text {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--neonfall-cyan);
+      opacity: 0.4;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    @keyframes dataScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ---- World section ---- */
+    .world-section {
+      padding-block: var(--space-12);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .world-split {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: var(--space-10);
+      align-items: center;
+    }
+
+    .world-left {}
+
+    .world-visual {
+      aspect-ratio: 16/10;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #060910;
+      position: relative;
+    }
+
+    .world-visual-inner {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 35%;
+    }
+
+    /* Grid overlay for cyberpunk effect */
+    .world-visual-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .world-visual::before {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      width: 18px;
+      height: 18px;
+      border-top: 1px solid rgba(0,229,255,0.4);
+      border-left: 1px solid rgba(0,229,255,0.4);
+      z-index: 1;
+    }
+
+    .world-visual::after {
+      content: '';
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      width: 18px;
+      height: 18px;
+      border-bottom: 1px solid rgba(0,229,255,0.4);
+      border-right: 1px solid rgba(0,229,255,0.4);
+      z-index: 1;
+    }
+
+    .world-lore {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--neonfall-cyan);
+      opacity: 0.85;
+      margin-bottom: var(--space-8);
+      line-height: 1.4;
+    }
+
+    .world-body {
+      font-size: var(--text-base);
+      color: var(--color-text-2);
+      line-height: 1.85;
+      margin-bottom: var(--space-6);
+    }
+
+    .world-body strong {
+      color: var(--neonfall-cyan);
+      font-weight: 500;
+    }
+
+    .character-card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      padding: var(--space-6);
+      border: 1px solid var(--color-border);
+      border-left: 2px solid var(--neonfall-cyan);
+      border-radius: var(--radius);
+      margin-top: var(--space-10);
+      background: rgba(0,229,255,0.03);
+    }
+
+    .character-card-label {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--neonfall-cyan);
+    }
+
+    .character-card-name {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      color: var(--color-text);
+    }
+
+    .character-card-desc {
+      font-size: var(--text-sm);
+      color: var(--color-text-2);
+      line-height: 1.7;
+    }
+
+    /* ---- City Layers ---- */
+    .city-section {
+      padding-block: var(--space-12);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .city-layers {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: var(--space-8);
+    }
+
+    .city-layer {
+      display: grid;
+      grid-template-columns: 80px 1fr 1fr;
+      gap: var(--space-8);
+      padding-block: var(--space-8);
+      border-bottom: 1px solid var(--color-border);
+      align-items: start;
+      transition: background var(--duration-fast);
+    }
+
+    .city-layer:first-child { border-top: 1px solid var(--color-border); }
+    .city-layer:hover { background: rgba(0,229,255,0.015); }
+
+    .city-layer-num {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--neonfall-cyan);
+      opacity: 0.5;
+      letter-spacing: 0.1em;
+      padding-top: 3px;
+    }
+
+    .city-layer-name {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      font-weight: 400;
+      color: var(--color-text);
+      padding-top: 2px;
+    }
+
+    .city-layer-desc {
+      font-size: var(--text-sm);
+      color: var(--color-text-2);
+      line-height: 1.75;
+    }
+
+    .city-layer-desc strong {
+      color: var(--neonfall-purple);
+      font-weight: 500;
+    }
+
+    /* ---- Systems ---- */
+    .systems-section {
+      padding-block: var(--space-12);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .systems-bento {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: var(--space-4);
+      margin-top: var(--space-8);
+    }
+
+    .system-tile {
+      padding: var(--space-8);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      background: var(--color-surface);
+      position: relative;
+      overflow: hidden;
+      transition: border-color var(--duration-base);
+    }
+
+    .system-tile:hover {
+      border-color: rgba(0,229,255,0.18);
+    }
+
+    .system-tile--wide {
+      grid-column: span 2;
+    }
+
+    .system-tile::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--neonfall-cyan);
+      opacity: 0;
+      transition: opacity var(--duration-base);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: opacity var(--duration-base), transform var(--duration-slow) var(--ease-out);
+    }
+
+    .system-tile:hover::before {
+      opacity: 0.4;
+      transform: scaleX(1);
+    }
+
+    .system-tile-num {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-3);
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-4);
+    }
+
+    .system-tile-title {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      color: var(--color-text);
+      margin-bottom: var(--space-4);
+    }
+
+    .system-tile-body {
+      font-size: var(--text-sm);
+      color: var(--color-text-2);
+      line-height: 1.75;
+    }
+
+    .system-tile-body strong {
+      color: var(--neonfall-cyan);
+      font-weight: 500;
+    }
+
+    /* ---- Status ---- */
+    .status-section {
+      padding-block: var(--space-12);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-10);
+      align-items: start;
+    }
+
+    .wishlist-form {
+      display: flex;
+      gap: var(--space-3);
+      max-width: 420px;
+    }
+
+    .wishlist-input {
+      flex: 1;
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-border-2);
+      border-radius: var(--radius-sm);
+      padding: var(--space-4) var(--space-5);
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      color: var(--color-text);
+      outline: none;
+      transition: border-color var(--duration-fast);
+    }
+
+    .wishlist-input::placeholder { color: var(--color-text-3); }
+    .wishlist-input:focus { border-color: var(--neonfall-cyan); }
+
+    /* Terminal-style spec list */
+    .terminal-specs {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      line-height: 1.9;
+      color: var(--color-text-2);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: var(--space-8);
+      background: var(--color-surface);
+    }
+
+    .terminal-line {
+      display: flex;
+      gap: var(--space-4);
+    }
+
+    .terminal-key {
+      color: var(--neonfall-cyan);
+      opacity: 0.6;
+      min-width: 120px;
+      flex-shrink: 0;
+    }
+
+    .terminal-val {
+      color: var(--color-text-2);
+    }
+
+    .terminal-prompt {
+      color: var(--neonfall-purple);
+      opacity: 0.5;
+      margin-right: var(--space-2);
+    }
+
+    @media (max-width: 1024px) {
+      .world-split,
+      .status-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .systems-bento {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .system-tile--wide {
+        grid-column: 1 / 3;
+      }
+
+      .city-layer {
+        grid-template-columns: 60px 1fr;
+      }
+
+      .city-layer-desc {
+        grid-column: 2;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .systems-bento {
+        grid-template-columns: 1fr;
+      }
+
+      .system-tile--wide {
+        grid-column: 1;
+      }
+
+      .city-layer {
+        grid-template-columns: 1fr;
+      }
+
+      .wishlist-form {
+        flex-direction: column;
+        max-width: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo" aria-label="Kairox Studios home">
+      <span class="logo-kairox">KAIROX</span>
+      <span class="logo-studios">Studios</span>
+    </a>
+    <ul class="nav-links" role="list">
+      <li class="nav-dropdown-trigger">
+        <a href="index.html#games" aria-haspopup="true">Games</a>
+        <ul class="nav-dropdown" role="list">
+          <li><a href="veilborn.html"><span class="game-dot game-dot--veilborn" aria-hidden="true"></span>Veilborn</a></li>
+          <li><a href="kurogane.html"><span class="game-dot game-dot--kurogane" aria-hidden="true"></span>Kurogane</a></li>
+          <li><a href="neonfall.html"><span class="game-dot game-dot--neonfall" aria-hidden="true"></span>Neonfall</a></li>
+        </ul>
+      </li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="careers.html">Careers</a></li>
+    </ul>
+    <a href="careers.html" class="nav-cta">Join Us</a>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+</nav>
+
+<nav class="nav-mobile" id="nav-mobile" aria-label="Mobile navigation">
+  <a href="veilborn.html">Veilborn</a>
+  <a href="kurogane.html">Kurogane</a>
+  <a href="neonfall.html">Neonfall</a>
+  <a href="about.html">About</a>
+  <a href="careers.html">Careers</a>
+</nav>
+
+<!-- Hero -->
+<section class="game-hero" aria-label="Neonfall hero">
+  <img class="game-hero-bg-img" src="assets/neonfall-hero.jpg" alt="" aria-hidden="true" />
+  <canvas id="nf-canvas" aria-hidden="true"></canvas>
+  <div class="game-hero-gradient" aria-hidden="true"></div>
+
+  <div class="game-hero-content container">
+    <p class="game-hero-tag">Kairox Studios / Neonfall</p>
+    <h1 class="game-hero-title">Neonfall</h1>
+    <span class="game-hero-year" aria-label="Year 2147 - Nexus Prime">Nexus Prime / 2147</span>
+    <p class="game-hero-quote">"The city never sleeps. It just hunts."</p>
+    <p class="game-hero-desc">
+      Operative Sera Vale is the best there is at what she does. In Nexus Prime, 2147, that means someone always wants her dead. Navigate the layered underworld of a megacity that breathes, bleeds, and never forgives a mistake.
+    </p>
+    <div class="game-hero-actions">
+      <a href="#wishlist" class="btn btn--neonfall">Add to Wishlist</a>
+      <a href="#world" class="btn btn--neonfall-ghost btn">Enter the City</a>
+    </div>
+  </div>
+</section>
+
+<!-- Data Strip -->
+<div class="data-strip" aria-hidden="true">
+  <div class="data-strip-inner">
+    <span class="data-strip-text">NX-PRIME / SECTOR 7G &nbsp; | &nbsp; STATUS: HOSTILE &nbsp; | &nbsp; OPERATIVE: VALE, S. &nbsp; | &nbsp; THREAT LEVEL: CRITICAL &nbsp; | &nbsp; WEATHER: ACID RAIN &nbsp; | &nbsp; NX-PRIME / SECTOR 7G &nbsp; | &nbsp; STATUS: HOSTILE &nbsp; | &nbsp; OPERATIVE: VALE, S. &nbsp; | &nbsp; THREAT LEVEL: CRITICAL &nbsp; | &nbsp; WEATHER: ACID RAIN &nbsp; | &nbsp;</span>
+    <span class="data-strip-text">NX-PRIME / SECTOR 7G &nbsp; | &nbsp; STATUS: HOSTILE &nbsp; | &nbsp; OPERATIVE: VALE, S. &nbsp; | &nbsp; THREAT LEVEL: CRITICAL &nbsp; | &nbsp; WEATHER: ACID RAIN &nbsp; | &nbsp; NX-PRIME / SECTOR 7G &nbsp; | &nbsp; STATUS: HOSTILE &nbsp; | &nbsp; OPERATIVE: VALE, S. &nbsp; | &nbsp; THREAT LEVEL: CRITICAL &nbsp; | &nbsp; WEATHER: ACID RAIN &nbsp; | &nbsp;</span>
+  </div>
+</div>
+
+<!-- World Section -->
+<section class="world-section" id="world" aria-labelledby="world-heading">
+  <div class="container">
+    <p class="section-label" style="color: var(--neonfall-cyan); opacity: 0.7">The Operative</p>
+    <div class="world-split">
+      <div class="world-left reveal">
+        <p class="world-lore">"Every job has a price. Every price has a name. In Nexus Prime, the name is always yours."</p>
+        <p class="world-body">
+          Nexus Prime towers 600 levels above sea level. Below the shining corporate spires, twelve distinct layers of city fight for air, water, and power. Sera Vale knows every crack in every wall. She has been paid to find most of them.
+        </p>
+        <p class="world-body">
+          When she discovers that the next target on her list is <strong>herself</strong>, she has 72 hours to find out who posted the contract, and why the city's most powerful corporations all want her erased.
+        </p>
+
+        <div class="character-card">
+          <p class="character-card-label">Protagonist</p>
+          <p class="character-card-name">Sera Vale</p>
+          <p class="character-card-desc">Former corporate wetwork. Now independent. Level 8 clearance on four different corporate networks, none of them aware she has it. She does not trust anyone who does not try to kill her first. It filters out the boring ones.</p>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="world-visual" role="img" aria-label="Operative Sera Vale overlooking the neon sprawl of Nexus Prime">
+          <img class="world-visual-inner" src="assets/neonfall-portrait.jpg" alt="Sera Vale, operative in Nexus Prime 2147" loading="lazy" />
+          <div class="world-visual-grid" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- City Layers -->
+<section class="city-section" aria-labelledby="city-heading">
+  <div class="container">
+    <p class="section-label" style="color: var(--neonfall-cyan); opacity: 0.7">Architecture</p>
+    <h2 class="section-title" id="city-heading">Nexus Prime: The Vertical City</h2>
+    <p class="section-sub">600 levels. Twelve distinct zones. Every layer has its own economy, its own law, and its own interpretation of what survival means.</p>
+
+    <div class="city-layers reveal">
+      <div class="city-layer">
+        <span class="city-layer-num">L 1-50</span>
+        <h3 class="city-layer-name">The Spires</h3>
+        <p class="city-layer-desc">Corporate headquarters. Weather-controlled. Security is air itself. <strong>Sera has three contacts up here</strong> and all of them are compromised. She uses them anyway.</p>
+      </div>
+      <div class="city-layer">
+        <span class="city-layer-num">L 51-150</span>
+        <h3 class="city-layer-name">The Ring</h3>
+        <p class="city-layer-desc">Middle-management habitat. The illusion of safety at a premium price. Most residents do not know the floors below them exist. <strong>This is where Sera disappears when she needs to think.</strong></p>
+      </div>
+      <div class="city-layer">
+        <span class="city-layer-num">L 151-300</span>
+        <h3 class="city-layer-name">The Mesh</h3>
+        <p class="city-layer-desc">The trading layer. Black markets, parallel networks, body augmentation clinics that don't ask questions. <strong>Sera's most useful connections live here.</strong> Half of them are trying to kill her at any given time.</p>
+      </div>
+      <div class="city-layer">
+        <span class="city-layer-num">L 301-500</span>
+        <h3 class="city-layer-name">The Veins</h3>
+        <p class="city-layer-desc">Infrastructure access. Maintenance tunnels that span the full height of the city. <strong>Corporate security patrols are light here.</strong> Everything else is not. The Veins have their own rules.</p>
+      </div>
+      <div class="city-layer">
+        <span class="city-layer-num">L 501-600</span>
+        <h3 class="city-layer-name">The Drowned</h3>
+        <p class="city-layer-desc">Below the waterline. Flooded. Abandoned by the corporations two decades ago. <strong>Not abandoned by everyone.</strong> Sera has never gone this deep and come back the same. She will have to go deeper this time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Systems Bento -->
+<section class="systems-section" aria-labelledby="systems-heading">
+  <div class="container">
+    <p class="section-label" style="color: var(--neonfall-cyan); opacity: 0.7">Mechanics</p>
+    <h2 class="section-title" id="systems-heading">A City That Responds</h2>
+
+    <div class="systems-bento reveal-stagger">
+      <div class="system-tile system-tile--wide">
+        <p class="system-tile-num">01</p>
+        <h3 class="system-tile-title">Combat Fluidity</h3>
+        <p class="system-tile-body">Neonfall's combat is <strong>entirely momentum-driven</strong>. Sera does not stand and trade blows. She enters, neutralizes, and exits before the room understands what happened. Augments change how she moves, not how hard she hits.</p>
+      </div>
+
+      <div class="system-tile">
+        <p class="system-tile-num">02</p>
+        <h3 class="system-tile-title">Network Infiltration</h3>
+        <p class="system-tile-body">Every system in Nexus Prime is connected. <strong>Every connection is a door.</strong> Sera can hack from anywhere in signal range. The deeper the access, the louder the alarm.</p>
+      </div>
+
+      <div class="system-tile">
+        <p class="system-tile-num">03</p>
+        <h3 class="system-tile-title">Corporate Allegiance</h3>
+        <p class="system-tile-body">Four corporations want Sera dead. Three might negotiate. <strong>The one she chooses to trust shapes the entire city's response</strong> in the final act. No choice is safe.</p>
+      </div>
+
+      <div class="system-tile">
+        <p class="system-tile-num">04</p>
+        <h3 class="system-tile-title">Augmentation Matrix</h3>
+        <p class="system-tile-body">Sera's body is a platform. Augments can be installed, removed, and traded. <strong>Over-augmenting reduces humanity and changes how NPCs respond</strong> at a fundamental level.</p>
+      </div>
+
+      <div class="system-tile">
+        <p class="system-tile-num">05</p>
+        <h3 class="system-tile-title">Dynamic Weather</h3>
+        <p class="system-tile-body">The city generates its own micro-climate. <strong>Acid rain corrodes augments.</strong> Neon fog provides cover but reduces drone efficiency. The weather is not atmosphere. It is a gameplay variable.</p>
+      </div>
+
+      <div class="system-tile">
+        <p class="system-tile-num">06</p>
+        <h3 class="system-tile-title">Free Exploration</h3>
+        <p class="system-tile-body">Nexus Prime is not a corridor. <strong>All 600 levels are accessible</strong> from the beginning of the game. Some require tools. Some require preparation. None are locked by story gates.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Wishlist -->
+<section class="status-section" id="wishlist" aria-labelledby="status-heading">
+  <div class="container">
+    <div class="status-grid">
+      <div class="reveal">
+        <p class="section-label" style="color: var(--neonfall-cyan); opacity: 0.7">Target Window: 2027</p>
+        <h2 style="font-family: var(--font-display); font-size: var(--text-3xl); color: var(--color-text); margin-bottom: var(--space-6)" id="status-heading">Nexus Prime opens soon.</h2>
+        <p style="font-size: var(--text-base); color: var(--color-text-2); line-height: 1.75; max-width: 44ch; margin-bottom: var(--space-8)">
+          Neonfall is in development for PC and current-generation consoles. Add it to your wishlist now and receive an update when we go public with gameplay.
+        </p>
+
+        <form class="wishlist-form" action="#" method="post" novalidate aria-label="Wishlist signup">
+          <label for="nf-email" class="visually-hidden">Your email address</label>
+          <input type="email" id="nf-email" name="email" class="wishlist-input" placeholder="your@email.com" autocomplete="email" />
+          <button type="submit" class="btn btn--neonfall">Notify Me</button>
+        </form>
+
+        <div class="platform-row" style="margin-top: var(--space-8)">
+          <span class="platform-badge">PC</span>
+          <span class="platform-badge">PS5</span>
+          <span class="platform-badge">Xbox Series X</span>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="terminal-specs" role="region" aria-label="Game specifications">
+          <div class="terminal-line"><span class="terminal-prompt">&gt;</span><span class="terminal-key">TITLE</span><span class="terminal-val">NEONFALL</span></div>
+          <div class="terminal-line"><span class="terminal-prompt">&gt;</span><span class="terminal-key">SETTING</span><span class="terminal-val">NEXUS PRIME, 2147</span></div>
+          <div class="terminal-line"><span class="terminal-prompt">&gt;</span><span class="terminal-key">GENRE</span><span class="terminal-val">ACTION / EXPLORATION</span></div>
+          <div class="terminal-line"><span class="terminal-prompt">&gt;</span><span class="terminal-key">PROTAGONIST</span><span class="terminal-val">SERA VALE</span></div>
+          <div class="terminal-line"><span class="terminal-prompt">&gt;</span><span class="terminal-key">WORLD_SIZE</span><span class="terminal-val">600 LEVELS / VERTICAL OPEN WORLD</span></div>
+          <div class="terminal-line"><span class="terminal-prompt">&gt;</span><span class="terminal-key">PLAYTIME</span><span class="terminal-val">35-50 HRS (MAIN) / 80+ HRS (FULL)</span></div>
+          <div class="terminal-line"><span class="terminal-prompt">&gt;</span><span class="terminal-key">MODES</span><span class="terminal-val">SOLO / HARD DIFFICULTY</span></div>
+          <div class="terminal-line"><span class="terminal-prompt">&gt;</span><span class="terminal-key">ENGINE</span><span class="terminal-val">KX ENGINE v3.1</span></div>
+          <div class="terminal-line"><span class="terminal-prompt">&gt;</span><span class="terminal-key">STATUS</span><span class="terminal-val" style="color: var(--neonfall-cyan)">IN DEVELOPMENT</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="border-top: 1px solid var(--color-border); padding-block: var(--space-16)">
+  <div class="container">
+    <p class="section-label" style="margin-bottom: var(--space-8)">Also from Kairox Studios</p>
+    <div style="display: flex; gap: var(--space-4); flex-wrap: wrap">
+      <a href="veilborn.html" class="btn btn--ghost" style="color: var(--veilborn-gold); border-color: rgba(201,168,76,0.3)">Veilborn</a>
+      <a href="kurogane.html" class="btn btn--ghost" style="color: var(--kurogane-crimson); border-color: rgba(192,57,43,0.3)">Kurogane</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="footer-logo">
+          <span class="logo-kairox">KAIROX</span>
+          <span class="logo-studios">Studios</span>
+        </a>
+        <p class="footer-tagline">We build worlds that don't let go. Independent AA game development.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Games</p>
+        <ul class="footer-links">
+          <li><a href="veilborn.html">Veilborn</a></li>
+          <li><a href="kurogane.html">Kurogane</a></li>
+          <li><a href="neonfall.html">Neonfall</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Studio</p>
+        <ul class="footer-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="careers.html">Careers</a></li>
+          <li><a href="about.html#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Press</p>
+        <ul class="footer-links">
+          <li><a href="#">Press Kit</a></li>
+          <li><a href="#">Media Inquiries</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-legal">&copy; 2026 Kairox Studios. All rights reserved.</p>
+      <div class="footer-social">
+        <a href="#">X / Twitter</a>
+        <a href="#">YouTube</a>
+        <a href="#">Discord</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/animations.js"></script>
+
+<script>
+(function () {
+  /* ============================================================
+     Neonfall - Atmospheric Canvas: Neon scan lines + data traces
+     Cyberpunk city grid with moving light traces.
+     ============================================================ */
+  const canvas = document.getElementById('nf-canvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  let W = 0, H = 0;
+
+  function resize() {
+    W = canvas.width  = canvas.clientWidth;
+    H = canvas.height = canvas.clientHeight;
+  }
+
+  const ro = new ResizeObserver(resize);
+  ro.observe(canvas);
+  resize();
+
+  /* Vertical light traces */
+  const traces = [];
+
+  function makeTrace() {
+    return {
+      x:     Math.random() * W,
+      y:     -Math.random() * H * 0.5,
+      speed: 0.4 + Math.random() * 1.2,
+      len:   30 + Math.random() * 80,
+      alpha: 0.0,
+      maxA:  0.04 + Math.random() * 0.14,
+      cyan:  Math.random() > 0.35,
+    };
+  }
+
+  for (let i = 0; i < 40; i++) {
+    const t = makeTrace();
+    t.y = Math.random() * H;
+    traces.push(t);
+  }
+
+  /* Horizontal scan line */
+  let scanY = -H * 0.2;
+
+  let raf;
+  let tick = 0;
+
+  function draw() {
+    raf = requestAnimationFrame(draw);
+    tick++;
+
+    ctx.clearRect(0, 0, W, H);
+
+    /* Spawn traces */
+    if (tick % 8 === 0 && traces.length < 60) {
+      traces.push(makeTrace());
+    }
+
+    /* Vertical traces */
+    for (let i = traces.length - 1; i >= 0; i--) {
+      const tr = traces[i];
+
+      tr.y    += tr.speed;
+      tr.alpha = Math.min(tr.maxA, tr.alpha + 0.003);
+
+      if (tr.y > H + tr.len) {
+        traces.splice(i, 1);
+        continue;
+      }
+
+      ctx.save();
+      ctx.globalAlpha = tr.alpha;
+
+      const color = tr.cyan
+        ? 'rgba(0, 229, 255,'
+        : 'rgba(155, 89, 182,';
+
+      const gr = ctx.createLinearGradient(tr.x, tr.y - tr.len, tr.x, tr.y);
+      gr.addColorStop(0, color + '0)');
+      gr.addColorStop(0.5, color + '0.5)');
+      gr.addColorStop(1, color + '0)');
+
+      ctx.strokeStyle = gr;
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      ctx.moveTo(tr.x, tr.y - tr.len);
+      ctx.lineTo(tr.x, tr.y);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    /* Slow horizontal scan line */
+    scanY += 0.35;
+    if (scanY > H + 20) scanY = -40;
+
+    ctx.save();
+    ctx.globalAlpha = 0.018;
+    ctx.strokeStyle = 'rgba(0, 229, 255, 1)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(0, scanY);
+    ctx.lineTo(W, scanY);
+    ctx.stroke();
+
+    ctx.globalAlpha = 0.006;
+    ctx.lineWidth = 8;
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  const obs = new IntersectionObserver(function (entries) {
+    if (entries[0].isIntersecting) draw();
+    else cancelAnimationFrame(raf);
+  }, { threshold: 0.01 });
+
+  obs.observe(canvas.closest('.game-hero') || canvas);
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    cancelAnimationFrame(raf);
+  }
+})();
+</script>
+
+</body>
+</html>

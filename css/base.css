@@ -1,0 +1,289 @@
+/* Kairox Studios - Base Styles */
+
+/* --- Utilities --- */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.container--narrow {
+  max-width: var(--narrow-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* --- Buttons --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-8);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  transition:
+    transform var(--duration-fast) var(--ease-out),
+    opacity var(--duration-fast) var(--ease-out),
+    background var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out);
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+.btn--primary {
+  background: var(--color-accent);
+  color: #fff;
+  border: 1px solid transparent;
+}
+
+.btn--primary:hover {
+  background: var(--color-accent-glow);
+  transform: translateY(-2px);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--color-border-2);
+}
+
+.btn--ghost:hover {
+  border-color: var(--color-border-3);
+  background: rgba(255, 255, 255, 0.04);
+  transform: translateY(-2px);
+}
+
+.btn--game {
+  background: transparent;
+  border: 1px solid currentColor;
+  color: currentColor;
+}
+
+.btn--game:hover {
+  background: currentColor;
+  color: var(--color-bg);
+  transform: translateY(-2px);
+}
+
+/* --- Section base --- */
+.section {
+  padding-block: var(--space-12);
+}
+
+.section--large {
+  padding-block: var(--space-16);
+}
+
+.section--tight {
+  padding-block: var(--space-10);
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-text-3);
+  margin-bottom: var(--space-6);
+}
+
+.section-title {
+  font-size: var(--text-3xl);
+  font-weight: 400;
+  color: var(--color-text);
+  margin-bottom: var(--space-6);
+}
+
+.section-sub {
+  font-size: var(--text-lg);
+  color: var(--color-text-2);
+  max-width: 55ch;
+  line-height: 1.7;
+}
+
+/* --- Scroll reveal base states --- */
+/* Initial hiding is applied by JS (GSAP inline or .is-visible toggle).
+   No CSS pre-hiding here: if JS fails the content is still visible. */
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    transform var(--duration-slow) var(--ease-out);
+}
+
+/* Applied by JS when GSAP is unavailable (IntersectionObserver fallback) */
+.reveal.will-animate {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+/* --- Dividers --- */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--color-border);
+}
+
+/* --- Accent line --- */
+.accent-line {
+  display: block;
+  width: 2px;
+  height: 3rem;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+/* --- Tag / Chip --- */
+.tag {
+  display: inline-block;
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: 1px solid var(--color-border-2);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-2);
+}
+
+/* --- Grid helpers --- */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+}
+
+.grid-asymmetric {
+  display: grid;
+  grid-template-columns: 1.618fr 1fr;
+  gap: var(--space-12);
+  align-items: center;
+}
+
+.grid-asymmetric--reverse {
+  grid-template-columns: 1fr 1.618fr;
+}
+
+@media (max-width: 768px) {
+  .grid-2,
+  .grid-3,
+  .grid-asymmetric,
+  .grid-asymmetric--reverse {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    padding-block: var(--space-8);
+  }
+
+  .section--large {
+    padding-block: var(--space-10);
+  }
+}
+
+/* --- Platform badges --- */
+.platform-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.platform-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-5);
+  font-size: var(--text-xs);
+  font-family: var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid var(--color-border-2);
+  border-radius: 100px;
+  color: var(--color-text-3);
+}
+
+/* --- Horizontal rule with text --- */
+.hr-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  color: var(--color-text-3);
+  font-size: var(--text-xs);
+  font-family: var(--font-mono);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.hr-label::before,
+.hr-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+/* --- Kinetic text underline (game accent) --- */
+.underline-accent {
+  position: relative;
+  display: inline-block;
+}
+
+.underline-accent::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+.underline-accent:hover::after,
+.underline-accent.active::after {
+  transform: scaleX(1);
+}
+
+/* --- Cursor glow on game pages --- */
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 300px;
+  pointer-events: none;
+  background: radial-gradient(circle, currentColor 0%, transparent 70%);
+  opacity: 0.025;
+  transform: translate(-50%, -50%);
+  z-index: var(--z-overlay);
+  transition: opacity var(--duration-slow);
+}

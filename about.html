@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Kairox Studios - Independent AA game development studio. We build worlds that don't let go. Learn about our story, philosophy, and team." />
+  <title>About - Kairox Studios</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/nav.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+
+  <style>
+    /* ---- Page Hero ---- */
+    .about-hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding-top: 72px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 70% 40%, rgba(45,106,159,0.08) 0%, transparent 55%),
+        radial-gradient(ellipse at 20% 70%, rgba(45,106,159,0.05) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .about-hero-content {
+      padding-inline: var(--gutter);
+      max-width: var(--max-width);
+      margin-inline: auto;
+      width: 100%;
+      padding-bottom: var(--space-12);
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-hero-label {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--color-text-3);
+      margin-bottom: var(--space-6);
+    }
+
+    .about-hero-title {
+      font-family: var(--font-display);
+      font-size: var(--text-5xl);
+      font-weight: 400;
+      line-height: 0.95;
+      color: var(--color-text);
+      max-width: 14ch;
+      margin-bottom: var(--space-8);
+    }
+
+    .about-hero-sub {
+      font-size: var(--text-xl);
+      color: var(--color-text-2);
+      font-weight: 300;
+      max-width: 52ch;
+      line-height: 1.6;
+    }
+
+    /* ---- Manifesto ---- */
+    .manifesto-section {
+      padding-block: var(--space-16);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .manifesto-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.8fr;
+      gap: var(--space-12);
+      align-items: start;
+    }
+
+    .manifesto-left {
+      position: sticky;
+      top: calc(72px + var(--space-12));
+    }
+
+    .manifesto-number {
+      font-family: var(--font-display);
+      font-size: 6rem;
+      font-weight: 400;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--color-border-2);
+      display: block;
+      margin-bottom: var(--space-4);
+    }
+
+    .manifesto-right {}
+
+    .manifesto-block {
+      margin-bottom: var(--space-10);
+      padding-bottom: var(--space-10);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .manifesto-block:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .manifesto-heading {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      font-weight: 400;
+      color: var(--color-text);
+      margin-bottom: var(--space-6);
+      line-height: 1.2;
+    }
+
+    .manifesto-body {
+      font-size: var(--text-lg);
+      color: var(--color-text-2);
+      line-height: 1.75;
+      font-weight: 300;
+    }
+
+    .manifesto-body strong {
+      color: var(--color-electric);
+      font-weight: 500;
+    }
+
+    /* ---- Timeline ---- */
+    .timeline-section {
+      padding-block: var(--space-12);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .timeline {
+      position: relative;
+      margin-top: var(--space-8);
+    }
+
+    .timeline-spine {
+      position: absolute;
+      left: 80px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--color-border);
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: var(--space-12);
+      padding-bottom: var(--space-8);
+      position: relative;
+    }
+
+    .timeline-item:last-child {
+      padding-bottom: 0;
+    }
+
+    .timeline-year {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.1em;
+      color: var(--color-text-3);
+      padding-top: 5px;
+      text-align: right;
+      padding-right: var(--space-8);
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: 80px;
+      top: 5px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      transform: translateX(-50%);
+    }
+
+    .timeline-content {}
+
+    .timeline-event {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      font-weight: 400;
+      color: var(--color-text);
+      margin-bottom: var(--space-3);
+    }
+
+    .timeline-desc {
+      font-size: var(--text-sm);
+      color: var(--color-text-2);
+      line-height: 1.7;
+      max-width: 50ch;
+    }
+
+    /* ---- Values ---- */
+    .values-section {
+      padding-block: var(--space-12);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+      margin-top: var(--space-8);
+    }
+
+    .value-item {
+      padding: var(--space-8);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      transition: border-color var(--duration-base);
+    }
+
+    .value-item:hover {
+      border-color: var(--color-border-2);
+    }
+
+    .value-num {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-3);
+      letter-spacing: 0.15em;
+      margin-bottom: var(--space-4);
+    }
+
+    .value-title {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 400;
+      color: var(--color-text);
+      margin-bottom: var(--space-4);
+    }
+
+    .value-body {
+      font-size: var(--text-sm);
+      color: var(--color-text-2);
+      line-height: 1.75;
+    }
+
+    /* ---- Partners / Tools ---- */
+    .partners-section {
+      padding-block: var(--space-10);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .partners-grid {
+      display: flex;
+      align-items: center;
+      gap: var(--space-12);
+      flex-wrap: wrap;
+      margin-top: var(--space-10);
+    }
+
+    .partner-item {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-text-3);
+      opacity: 0.5;
+      transition: opacity var(--duration-fast);
+    }
+
+    .partner-item:hover {
+      opacity: 0.85;
+    }
+
+    /* ---- Contact ---- */
+    .contact-section {
+      padding-block: var(--space-12);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-10);
+      align-items: start;
+    }
+
+    .contact-left {}
+
+    .contact-right {}
+
+    .contact-channels {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .contact-channel {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-block: var(--space-5);
+      border-bottom: 1px solid var(--color-border);
+      gap: var(--space-6);
+      transition: background var(--duration-fast);
+    }
+
+    .contact-channel:first-child {
+      border-top: 1px solid var(--color-border);
+    }
+
+    .contact-channel:hover {
+      background: var(--color-surface);
+      padding-inline: var(--space-4);
+    }
+
+    .contact-channel-type {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--color-text-3);
+    }
+
+    .contact-channel-value {
+      font-size: var(--text-sm);
+      color: var(--color-text-2);
+    }
+
+    @media (max-width: 1024px) {
+      .manifesto-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .manifesto-left {
+        position: static;
+      }
+
+      .manifesto-number {
+        font-size: 6rem;
+      }
+
+      .values-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .timeline-spine { display: none; }
+
+      .timeline-item {
+        grid-template-columns: 60px 1fr;
+        gap: var(--space-6);
+      }
+
+      .timeline-dot { display: none; }
+
+      .values-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo" aria-label="Kairox Studios home">
+      <span class="logo-kairox">KAIROX</span>
+      <span class="logo-studios">Studios</span>
+    </a>
+    <ul class="nav-links" role="list">
+      <li class="nav-dropdown-trigger">
+        <a href="index.html#games" aria-haspopup="true">Games</a>
+        <ul class="nav-dropdown" role="list">
+          <li><a href="veilborn.html"><span class="game-dot game-dot--veilborn" aria-hidden="true"></span>Veilborn</a></li>
+          <li><a href="kurogane.html"><span class="game-dot game-dot--kurogane" aria-hidden="true"></span>Kurogane</a></li>
+          <li><a href="neonfall.html"><span class="game-dot game-dot--neonfall" aria-hidden="true"></span>Neonfall</a></li>
+        </ul>
+      </li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="careers.html">Careers</a></li>
+    </ul>
+    <a href="careers.html" class="nav-cta">Join Us</a>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+</nav>
+
+<nav class="nav-mobile" id="nav-mobile" aria-label="Mobile navigation">
+  <a href="veilborn.html">Veilborn</a>
+  <a href="kurogane.html">Kurogane</a>
+  <a href="neonfall.html">Neonfall</a>
+  <a href="about.html">About</a>
+  <a href="careers.html">Careers</a>
+</nav>
+
+<!-- Hero -->
+<header class="about-hero" role="banner">
+  <div class="about-hero-content container">
+    <p class="about-hero-label">Kairox Studios / About</p>
+    <h1 class="about-hero-title">The Studio Behind the Worlds</h1>
+    <p class="about-hero-sub">We are Kairox Studios. Independent. Intentional. We believe games are the last true frontier of interactive storytelling, and we build accordingly.</p>
+  </div>
+</header>
+
+<!-- Manifesto -->
+<section class="manifesto-section" aria-labelledby="manifesto-heading">
+  <div class="container">
+    <div class="manifesto-grid">
+      <div class="manifesto-left reveal">
+        <span class="manifesto-number" aria-hidden="true">KX</span>
+        <p class="section-label" style="margin-bottom: var(--space-4)">Studio Principles</p>
+        <p style="font-size: var(--text-sm); color: var(--color-text-3); line-height: 1.7; max-width: 26ch">
+          Four commitments that govern every decision we make, from hiring to shipping.
+        </p>
+      </div>
+
+      <div class="manifesto-right">
+        <div class="manifesto-block reveal">
+          <h2 class="manifesto-heading" id="manifesto-heading">Constraint as creative engine</h2>
+          <p class="manifesto-body">
+            Large studios solve creative problems with headcount. We solve them with discipline. Our teams are small by design. <strong>Every person carries the full weight of what we ship.</strong> That pressure produces something most large studios cannot manufacture: games that feel made by people who care about every frame.
+          </p>
+        </div>
+
+        <div class="manifesto-block reveal">
+          <h2 class="manifesto-heading">Atmosphere is not decoration</h2>
+          <p class="manifesto-body">
+            We do not use art to fill space. We use it to communicate things that words and systems cannot. The sound of a door. The weight of a pause. <strong>The moment when a player puts down the controller because they need to think.</strong> These are the moments we build toward.
+          </p>
+        </div>
+
+        <div class="manifesto-block reveal">
+          <h2 class="manifesto-heading">The player is intelligent</h2>
+          <p class="manifesto-body">
+            We do not explain what can be shown. We do not hand-hold what can be discovered. We do not soften what should be difficult. <strong>Our games respect the player's capacity to be confused, challenged, and changed.</strong> That respect is rare and we intend to keep it.
+          </p>
+        </div>
+
+        <div class="manifesto-block reveal">
+          <h2 class="manifesto-heading">Finish what you start</h2>
+          <p class="manifesto-body">
+            We ship complete games. No early access that never resolves. No day-one patches that fix what should have been fixed before release. <strong>We take longer because we refuse to ship broken work</strong>, and we believe the player will feel the difference.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Timeline -->
+<section class="timeline-section" aria-labelledby="history-heading">
+  <div class="container">
+    <p class="section-label">Studio History</p>
+    <h2 class="section-title" id="history-heading">From Prototype to Studio</h2>
+
+    <div class="timeline">
+      <div class="timeline-spine" aria-hidden="true"></div>
+
+      <div class="timeline-item reveal">
+        <span class="timeline-year">2019</span>
+        <div class="timeline-dot" aria-hidden="true"></div>
+        <div class="timeline-content">
+          <h3 class="timeline-event">The First Prototype</h3>
+          <p class="timeline-desc">Three former AAA developers began prototyping in their spare time. The first build of what would become Veilborn ran at 12 fps and crashed every four minutes. The idea was undeniable anyway.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <span class="timeline-year">2020</span>
+        <div class="timeline-dot" aria-hidden="true"></div>
+        <div class="timeline-content">
+          <h3 class="timeline-event">Kairox Studios Founded</h3>
+          <p class="timeline-desc">Studio officially incorporated. First seed funding secured from a private investor who had worked in games publishing for 20 years and wanted to fund something different. Six people. One direction.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <span class="timeline-year">2021</span>
+        <div class="timeline-dot" aria-hidden="true"></div>
+        <div class="timeline-content">
+          <h3 class="timeline-event">KX Engine Development Begins</h3>
+          <p class="timeline-desc">Decision made to build a proprietary engine optimized for atmospheric, narrative-first games. Controversial internally. Correct in retrospect. We needed a tool that matched our intentions, not the other way around.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <span class="timeline-year">2022</span>
+        <div class="timeline-dot" aria-hidden="true"></div>
+        <div class="timeline-content">
+          <h3 class="timeline-event">Series A Funding</h3>
+          <p class="timeline-desc">Secured Series A from a European games fund. Expanded to 18 people across two countries. Began formal development of all three titles concurrently. The structure that made it possible was already in place.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <span class="timeline-year">2023</span>
+        <div class="timeline-dot" aria-hidden="true"></div>
+        <div class="timeline-content">
+          <h3 class="timeline-event">First Public Showing</h3>
+          <p class="timeline-desc">Forty seconds of Veilborn footage shown at a European developer conference. No trailers. No marketing. The reaction was enough to confirm we were building something worth finishing.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <span class="timeline-year">2024</span>
+        <div class="timeline-dot" aria-hidden="true"></div>
+        <div class="timeline-content">
+          <h3 class="timeline-event">Console Platform Agreements</h3>
+          <p class="timeline-desc">Signed publishing agreements for PlayStation and Xbox alongside PC. Expanded the team to 28. Began external playtesting on Veilborn with closed groups. The responses were surprising in the right ways.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <span class="timeline-year">2025</span>
+        <div class="timeline-dot" aria-hidden="true"></div>
+        <div class="timeline-content">
+          <h3 class="timeline-event">Official Studio Announcement</h3>
+          <p class="timeline-desc">First public studio presence established. Website launched. Three games announced. The response from the industry and from players validated five years of working in relative silence.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <span class="timeline-year">Now</span>
+        <div class="timeline-dot" style="background: var(--color-electric)" aria-hidden="true"></div>
+        <div class="timeline-content">
+          <h3 class="timeline-event">In Development</h3>
+          <p class="timeline-desc">All three titles in active development. Growing the team selectively. Releasing updates when they mean something. Still building worlds that don't let go.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Values -->
+<section class="values-section" aria-labelledby="values-heading">
+  <div class="container">
+    <p class="section-label">How We Work</p>
+    <h2 class="section-title" id="values-heading">The Way We Build</h2>
+
+    <div class="values-grid reveal-stagger">
+      <div class="value-item">
+        <p class="value-num">01</p>
+        <h3 class="value-title">Async by Default</h3>
+        <p class="value-body">We do not mandate physical presence. Work happens when thinking is sharpest. The standard is the output, not the hours logged. We trust our people to manage their time because we hired people who deserve that trust.</p>
+      </div>
+      <div class="value-item">
+        <p class="value-num">02</p>
+        <h3 class="value-title">No Feature Drift</h3>
+        <p class="value-body">Every feature that enters development must exit with either a ship decision or a cut decision. Nothing lingers unresolved. This keeps our games coherent and our team focused on what is actually shipping.</p>
+      </div>
+      <div class="value-item">
+        <p class="value-num">03</p>
+        <h3 class="value-title">Playtest Early</h3>
+        <p class="value-body">We get builds in front of players before they are presentable. The feedback from a rough build is more honest than the feedback from a polished one. We would rather know the truth early than validate a mistake late.</p>
+      </div>
+      <div class="value-item">
+        <p class="value-num">04</p>
+        <h3 class="value-title">Credit is Shared</h3>
+        <p class="value-body">Every person who ships a game ships it with their name on it. We do not have a single lead whose vision eclipses the team. Kairox games are made by the people who made them, and those people are identified.</p>
+      </div>
+      <div class="value-item">
+        <p class="value-num">05</p>
+        <h3 class="value-title">Iteration is Mandatory</h3>
+        <p class="value-body">First ideas are starting points. We do not protect early concepts from scrutiny. If something is not working, we say so. We change it. The willingness to abandon a bad idea is as important as the ability to have a good one.</p>
+      </div>
+      <div class="value-item">
+        <p class="value-num">06</p>
+        <h3 class="value-title">Sustainable Pace</h3>
+        <p class="value-body">We do not crunch. Not because we lack passion, but because crunch produces worse games made by burned-out people. The best work is done by people who have the mental space to do it. We protect that space.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Partners -->
+<section class="partners-section" aria-labelledby="partners-heading">
+  <div class="container">
+    <p class="section-label" id="partners-heading">Tools and Partners</p>
+    <div class="partners-grid">
+      <span class="partner-item">KX Engine</span>
+      <span class="partner-item">Houdini FX</span>
+      <span class="partner-item">Perforce Helix</span>
+      <span class="partner-item">Wwise Audio</span>
+      <span class="partner-item">Substance 3D</span>
+      <span class="partner-item">Azure DevOps</span>
+      <span class="partner-item">Miro</span>
+      <span class="partner-item">Notion</span>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="contact-section" id="contact" aria-labelledby="contact-heading">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="reveal">
+        <p class="section-label">Get in Touch</p>
+        <h2 class="section-title" id="contact-heading">We respond to things worth responding to.</h2>
+        <p style="font-size: var(--text-base); color: var(--color-text-2); line-height: 1.75; max-width: 42ch; margin-top: var(--space-6)">
+          We read everything. Publishers, collaborators, press, players with genuine feedback. If you have something to say that fits in a well-constructed sentence, say it.
+        </p>
+        <a href="careers.html" class="btn btn--ghost" style="margin-top: var(--space-10)">View Open Roles</a>
+      </div>
+
+      <div class="reveal">
+        <div class="contact-channels" role="list">
+          <div class="contact-channel" role="listitem">
+            <span class="contact-channel-type">General</span>
+            <span class="contact-channel-value">hello@kairoxstudios.com</span>
+          </div>
+          <div class="contact-channel" role="listitem">
+            <span class="contact-channel-type">Press</span>
+            <span class="contact-channel-value">press@kairoxstudios.com</span>
+          </div>
+          <div class="contact-channel" role="listitem">
+            <span class="contact-channel-type">Business</span>
+            <span class="contact-channel-value">partnerships@kairoxstudios.com</span>
+          </div>
+          <div class="contact-channel" role="listitem">
+            <span class="contact-channel-type">Careers</span>
+            <span class="contact-channel-value">jobs@kairoxstudios.com</span>
+          </div>
+          <div class="contact-channel" role="listitem">
+            <span class="contact-channel-type">Location</span>
+            <span class="contact-channel-value">Distributed / Remote-First</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="footer-logo">
+          <span class="logo-kairox">KAIROX</span>
+          <span class="logo-studios">Studios</span>
+        </a>
+        <p class="footer-tagline">We build worlds that don't let go. Independent AA game development.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Games</p>
+        <ul class="footer-links">
+          <li><a href="veilborn.html">Veilborn</a></li>
+          <li><a href="kurogane.html">Kurogane</a></li>
+          <li><a href="neonfall.html">Neonfall</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Studio</p>
+        <ul class="footer-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="careers.html">Careers</a></li>
+          <li><a href="about.html#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Press</p>
+        <ul class="footer-links">
+          <li><a href="#">Press Kit</a></li>
+          <li><a href="#">Media Inquiries</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-legal">&copy; 2026 Kairox Studios. All rights reserved.</p>
+      <div class="footer-social">
+        <a href="#">X / Twitter</a>
+        <a href="#">YouTube</a>
+        <a href="#">Discord</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/animations.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Kairox Studios builds cinematic action-adventure worlds. Three games. One studio. No compromises." />
+  <title>Kairox Studios</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/nav.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+
+  <style>
+    /* --- Hero --- */
+    .hero {
+      position: relative;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+    }
+
+    #hero-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: var(--z-below);
+    }
+
+    .hero-gradient {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to top, var(--color-bg) 0%, transparent 40%),
+        linear-gradient(to bottom, rgba(10,10,10,0.5) 0%, transparent 30%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding-inline: var(--gutter);
+      max-width: var(--max-width);
+      margin-inline: auto;
+      width: 100%;
+      padding-bottom: var(--space-12);
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--color-text-3);
+      margin-bottom: var(--space-6);
+    }
+
+    .hero-display {
+      font-family: var(--font-display);
+      font-size: var(--text-hero);
+      font-weight: 400;
+      line-height: 0.95;
+      letter-spacing: -0.01em;
+      color: var(--color-text);
+      margin-bottom: var(--space-8);
+      max-width: 12ch;
+    }
+
+    .hero-display em {
+      font-style: normal;
+      color: var(--color-electric);
+    }
+
+    .hero-tagline {
+      font-size: var(--text-xl);
+      color: var(--color-text-2);
+      font-weight: 300;
+      max-width: 42ch;
+      line-height: 1.5;
+      margin-bottom: var(--space-10);
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: var(--space-10);
+      right: var(--gutter);
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--color-text-3);
+    }
+
+    .scroll-line {
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--color-text-3);
+      transform-origin: right center;
+      animation: scrollLineAnim 2.4s var(--ease-out) infinite;
+    }
+
+    @keyframes scrollLineAnim {
+      0%, 100% { transform: scaleX(1); opacity: 0.4; }
+      50%       { transform: scaleX(0.4); opacity: 0.2; }
+    }
+
+    /* --- Games Section --- */
+    .games-section {
+      padding-block: var(--space-12);
+    }
+
+    .games-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--space-8);
+      margin-bottom: var(--space-8);
+    }
+
+    .games-header-left {}
+
+    .games-header-right {
+      font-size: var(--text-sm);
+      color: var(--color-text-3);
+      text-align: right;
+      max-width: 28ch;
+      line-height: 1.6;
+      flex-shrink: 0;
+    }
+
+    /* Game card grid: 1 large + 2 smaller */
+    .games-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+
+    .games-grid-row {
+      display: grid;
+      grid-template-columns: 1.618fr 1fr;
+      gap: var(--space-4);
+    }
+
+    .game-card {
+      position: relative;
+      display: block;
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid var(--color-border);
+      text-decoration: none;
+      background: var(--color-surface);
+      cursor: pointer;
+      transition: border-color var(--duration-base) var(--ease-out);
+    }
+
+    .game-card:hover {
+      border-color: var(--color-border-2);
+    }
+
+    .game-card--featured {
+      aspect-ratio: 16/9;
+    }
+
+    .game-card--small {
+      aspect-ratio: 4/3;
+    }
+
+    .game-card-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform var(--duration-slower) var(--ease-out);
+    }
+
+    .game-card:hover .game-card-bg {
+      transform: scale(1.04);
+    }
+
+    /* Placeholder backgrounds */
+    .game-card--veilborn .game-card-placeholder {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 60%, rgba(201,168,76,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 30%, rgba(139,35,70,0.15) 0%, transparent 55%),
+        linear-gradient(to bottom, #0d0a06 0%, #0a0a0a 100%);
+    }
+
+    .game-card--kurogane .game-card-placeholder {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 70%, rgba(192,57,43,0.18) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(138,155,168,0.08) 0%, transparent 50%),
+        linear-gradient(to bottom, #0d0808 0%, #0a0a0a 100%);
+    }
+
+    .game-card--neonfall .game-card-placeholder {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 60% 40%, rgba(0,229,255,0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 20% 80%, rgba(155,89,182,0.12) 0%, transparent 50%),
+        linear-gradient(to bottom, #06090d 0%, #0a0a0a 100%);
+    }
+
+    .game-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.1) 60%, transparent 100%);
+      transition: background var(--duration-base);
+    }
+
+    .game-card:hover .game-card-overlay {
+      background: linear-gradient(to top, rgba(10,10,10,0.88) 0%, rgba(10,10,10,0.1) 65%, transparent 100%);
+    }
+
+    .game-card-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: var(--space-8);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .game-card-tag {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+
+    .game-card-title {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: var(--color-text);
+      line-height: 1;
+    }
+
+    .game-card--small .game-card-title {
+      font-size: var(--text-xl);
+    }
+
+    .game-card-tagline {
+      font-size: var(--text-sm);
+      color: var(--color-text-2);
+      font-style: italic;
+      opacity: 0;
+      transform: translateY(6px);
+      transition:
+        opacity var(--duration-base) var(--ease-out),
+        transform var(--duration-base) var(--ease-out);
+    }
+
+    .game-card:hover .game-card-tagline {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .game-card-arrow {
+      position: absolute;
+      top: var(--space-6);
+      right: var(--space-6);
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--color-border-2);
+      border-radius: 50%;
+      color: var(--color-text-2);
+      font-size: 0.85rem;
+      opacity: 0;
+      transform: scale(0.8) rotate(-45deg);
+      transition:
+        opacity var(--duration-base) var(--ease-out),
+        transform var(--duration-base) var(--ease-spring);
+    }
+
+    .game-card:hover .game-card-arrow {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+
+    /* color accent bars per game */
+    .game-card--veilborn  { --card-accent: var(--veilborn-gold); }
+    .game-card--kurogane  { --card-accent: var(--kurogane-crimson); }
+    .game-card--neonfall  { --card-accent: var(--neonfall-cyan); }
+
+    .game-card-accent-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--card-accent);
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform var(--duration-slow) var(--ease-out);
+    }
+
+    .game-card:hover .game-card-accent-bar {
+      transform: scaleX(1);
+    }
+
+    /* --- Studio Statement --- */
+    .statement-section {
+      padding-block: var(--space-16);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .statement-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: var(--space-12);
+      align-items: start;
+    }
+
+    .statement-left {}
+
+    .statement-number {
+      font-family: var(--font-display);
+      font-size: 7rem;
+      font-weight: 400;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--color-border-3);
+      line-height: 1;
+      margin-bottom: var(--space-6);
+      display: block;
+    }
+
+    .statement-right {}
+
+    .statement-body {
+      font-size: var(--text-2xl);
+      font-weight: 300;
+      color: var(--color-text);
+      line-height: 1.5;
+      max-width: 20ch;
+      margin-bottom: var(--space-10);
+    }
+
+    .statement-body strong {
+      font-weight: 500;
+      color: var(--color-electric);
+    }
+
+    .statement-sub {
+      font-size: var(--text-base);
+      color: var(--color-text-2);
+      line-height: 1.8;
+      max-width: 52ch;
+      margin-bottom: var(--space-10);
+    }
+
+    /* --- Recognition (awards placeholder) --- */
+    .recognition-section {
+      padding-block: var(--space-16);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .recognition-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-16);
+      overflow: hidden;
+    }
+
+    .recognition-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+      flex-shrink: 0;
+      opacity: 0.35;
+      transition: opacity var(--duration-base);
+    }
+
+    .recognition-item:hover {
+      opacity: 0.7;
+    }
+
+    .recognition-item-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--color-surface-3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      color: var(--color-text-3);
+    }
+
+    .recognition-item-text {
+      font-size: var(--text-xs);
+      font-family: var(--font-mono);
+      letter-spacing: 0.08em;
+      color: var(--color-text-3);
+      line-height: 1.4;
+    }
+
+    @media (max-width: 1024px) {
+      .games-grid-row {
+        grid-template-columns: 1fr;
+      }
+
+      .game-card--small {
+        aspect-ratio: 16/9;
+      }
+
+      .statement-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-12);
+      }
+
+      .games-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .games-header-right {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero-display {
+        max-width: none;
+      }
+
+      .game-card-content {
+        padding: var(--space-6);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo" aria-label="Kairox Studios home">
+      <span class="logo-kairox">KAIROX</span>
+      <span class="logo-studios">Studios</span>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li class="nav-dropdown-trigger">
+        <a href="#games" aria-haspopup="true">Games</a>
+        <ul class="nav-dropdown" role="list">
+          <li><a href="veilborn.html"><span class="game-dot game-dot--veilborn" aria-hidden="true"></span>Veilborn</a></li>
+          <li><a href="kurogane.html"><span class="game-dot game-dot--kurogane" aria-hidden="true"></span>Kurogane</a></li>
+          <li><a href="neonfall.html"><span class="game-dot game-dot--neonfall" aria-hidden="true"></span>Neonfall</a></li>
+        </ul>
+      </li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="careers.html">Careers</a></li>
+    </ul>
+
+    <a href="careers.html" class="nav-cta">Join Us</a>
+
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<nav class="nav-mobile" id="nav-mobile" aria-label="Mobile navigation">
+  <a href="veilborn.html">Veilborn</a>
+  <a href="kurogane.html">Kurogane</a>
+  <a href="neonfall.html">Neonfall</a>
+  <a href="about.html">About</a>
+  <a href="careers.html">Careers</a>
+</nav>
+
+<!-- Hero -->
+<section class="hero" aria-label="Studio hero">
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
+  <div class="hero-gradient" aria-hidden="true"></div>
+
+  <div class="hero-content container">
+    <p class="hero-eyebrow" aria-hidden="true">AA Action / Adventure</p>
+    <h1 class="hero-display">We Build <em>Worlds</em></h1>
+    <p class="hero-tagline">Kairox Studios crafts cinematic action-adventure games that challenge perception and refuse to let go.</p>
+    <div class="hero-actions">
+      <a href="#games" class="btn btn--primary">Explore Games</a>
+      <a href="about.html" class="btn btn--ghost">Our Story</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll-hint" aria-hidden="true">
+    <span class="scroll-line"></span>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- Games Section -->
+<section class="games-section section" id="games">
+  <div class="container">
+    <header class="games-header">
+      <div class="games-header-left">
+        <p class="section-label">Current Projects</p>
+        <h2 class="section-title">Three Worlds.<br>One Promise.</h2>
+      </div>
+      <p class="games-header-right reveal">
+        Each title is built with a dedicated team, a singular vision, and a refusal to compromise on what matters.
+      </p>
+    </header>
+
+    <div class="games-grid reveal-stagger">
+      <!-- Featured: Veilborn -->
+      <a href="veilborn.html" class="game-card game-card--veilborn game-card--featured" aria-label="Veilborn - Every choice echoes in eternity">
+        <img class="game-card-bg" src="assets/veilborn-thumb.jpg" alt="" aria-hidden="true" />
+        <div class="game-card-overlay" aria-hidden="true"></div>
+        <div class="game-card-content">
+          <span class="game-card-tag" style="color: var(--veilborn-gold)">Oracle / Narrative / Solo</span>
+          <h3 class="game-card-title">Veilborn</h3>
+          <p class="game-card-tagline">"Every choice echoes in eternity."</p>
+        </div>
+        <div class="game-card-arrow" aria-hidden="true">&#x2192;</div>
+        <div class="game-card-accent-bar" aria-hidden="true"></div>
+      </a>
+
+      <!-- Row: Kurogane + Neonfall -->
+      <div class="games-grid-row">
+        <a href="kurogane.html" class="game-card game-card--kurogane game-card--small" aria-label="Kurogane - The dead don't rest, neither will you">
+          <img class="game-card-bg" src="assets/kurogane-thumb.jpg" alt="" aria-hidden="true" />
+          <div class="game-card-overlay" aria-hidden="true"></div>
+          <div class="game-card-content">
+            <span class="game-card-tag" style="color: var(--kurogane-crimson)">Samurai / Survival / Hardcore</span>
+            <h3 class="game-card-title">Kurogane</h3>
+            <p class="game-card-tagline">"The dead don't rest. Neither will you."</p>
+          </div>
+          <div class="game-card-arrow" aria-hidden="true">&#x2192;</div>
+          <div class="game-card-accent-bar" aria-hidden="true"></div>
+        </a>
+
+        <a href="neonfall.html" class="game-card game-card--neonfall game-card--small" aria-label="Neonfall - The city never sleeps, it just hunts">
+          <img class="game-card-bg" src="assets/neonfall-thumb.jpg" alt="" aria-hidden="true" />
+          <div class="game-card-overlay" aria-hidden="true"></div>
+          <div class="game-card-content">
+            <span class="game-card-tag" style="color: var(--neonfall-cyan)">Operative / Megacity / Combat</span>
+            <h3 class="game-card-title">Neonfall</h3>
+            <p class="game-card-tagline">"The city never sleeps. It just hunts."</p>
+          </div>
+          <div class="game-card-arrow" aria-hidden="true">&#x2192;</div>
+          <div class="game-card-accent-bar" aria-hidden="true"></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Studio Statement -->
+<section class="statement-section" aria-labelledby="statement-heading">
+  <div class="container">
+    <div class="statement-grid">
+      <div class="statement-left reveal">
+        <span class="statement-number" aria-hidden="true">03</span>
+        <div class="platform-row">
+          <span class="platform-badge">PC</span>
+          <span class="platform-badge">PlayStation</span>
+          <span class="platform-badge">Xbox</span>
+        </div>
+      </div>
+      <div class="statement-right reveal">
+        <p class="statement-body" id="statement-heading">
+          Small teams. <strong>Ambitious worlds.</strong> No shortcuts.
+        </p>
+        <p class="statement-sub">
+          Kairox Studios operates as an independent AA developer. We keep our teams lean on purpose. Every person on staff carries the weight of the final product. That pressure produces something most large studios cannot: games that feel made by people who care about every frame.
+        </p>
+        <a href="about.html" class="btn btn--ghost">About the Studio</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Recognition (placeholder) -->
+<section class="recognition-section" aria-label="Industry recognition">
+  <div class="container">
+    <p class="section-label" style="margin-bottom: var(--space-8)">Recognition</p>
+    <div class="recognition-row" role="list">
+      <div class="recognition-item" role="listitem">
+        <div class="recognition-item-logo" aria-hidden="true">GI</div>
+        <div class="recognition-item-text">
+          <span style="display:block">Games Industry</span>
+          <span>Studio to Watch, 2025</span>
+        </div>
+      </div>
+      <div class="recognition-item" role="listitem">
+        <div class="recognition-item-logo" aria-hidden="true">PX</div>
+        <div class="recognition-item-text">
+          <span style="display:block">PixelPush Awards</span>
+          <span>Best Narrative Design</span>
+        </div>
+      </div>
+      <div class="recognition-item" role="listitem">
+        <div class="recognition-item-logo" aria-hidden="true">GC</div>
+        <div class="recognition-item-text">
+          <span style="display:block">GamesCom</span>
+          <span>Most Anticipated, 2026</span>
+        </div>
+      </div>
+      <div class="recognition-item" role="listitem">
+        <div class="recognition-item-logo" aria-hidden="true">IA</div>
+        <div class="recognition-item-text">
+          <span style="display:block">Indie Arena</span>
+          <span>Outstanding Atmosphere</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="footer-logo" aria-label="Kairox Studios home">
+          <span class="logo-kairox">KAIROX</span>
+          <span class="logo-studios">Studios</span>
+        </a>
+        <p class="footer-tagline">We build worlds that don't let go. Independent AA game development.</p>
+        <div class="footer-game-dots" style="margin-top: var(--space-6)" aria-hidden="true">
+          <span class="footer-game-dot" style="background: var(--veilborn-gold)"></span>
+          <span class="footer-game-dot" style="background: var(--kurogane-crimson)"></span>
+          <span class="footer-game-dot" style="background: var(--neonfall-cyan)"></span>
+        </div>
+      </div>
+
+      <div>
+        <p class="footer-col-title">Games</p>
+        <ul class="footer-links">
+          <li><a href="veilborn.html">Veilborn</a></li>
+          <li><a href="kurogane.html">Kurogane</a></li>
+          <li><a href="neonfall.html">Neonfall</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="footer-col-title">Studio</p>
+        <ul class="footer-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="careers.html">Careers</a></li>
+          <li><a href="about.html#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="footer-col-title">Press</p>
+        <ul class="footer-links">
+          <li><a href="#">Press Kit</a></li>
+          <li><a href="#">Brand Assets</a></li>
+          <li><a href="#">Media Inquiries</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-legal">&copy; 2026 Kairox Studios. All rights reserved.</p>
+      <div class="footer-social">
+        <a href="#">X / Twitter</a>
+        <a href="#">YouTube</a>
+        <a href="#">Discord</a>
+        <a href="#">Instagram</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- CDN: Three.js -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.min.js"></script>
+<!-- CDN: GSAP + ScrollTrigger -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+<script src="js/nav.js"></script>
+<script src="js/animations.js"></script>
+
+<script>
+(function () {
+  /* ============================================================
+     Kairox Studios - Hero Three.js Scene: "Cosmic Debris"
+     Crystal fragments drifting in a deep dark void.
+     ============================================================ */
+
+  const canvas = document.getElementById('hero-canvas');
+  if (!canvas || typeof THREE === 'undefined') return;
+
+  const scene    = new THREE.Scene();
+  const camera   = new THREE.PerspectiveCamera(55, 1, 0.1, 600);
+  camera.position.set(0, 0, 55);
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x000000, 0);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+  /* Lighting */
+  const ambient = new THREE.AmbientLight(0x060d18, 6);
+  scene.add(ambient);
+
+  const keyLight = new THREE.PointLight(0x2d6a9f, 120, 180);
+  keyLight.position.set(0, 25, 30);
+  scene.add(keyLight);
+
+  const rimLight = new THREE.PointLight(0x1a3a5c, 60, 150);
+  rimLight.position.set(-40, -15, 10);
+  scene.add(rimLight);
+
+  /* Geometry variants for the shards */
+  const geos = [
+    new THREE.TetrahedronGeometry(1, 0),
+    new THREE.OctahedronGeometry(0.8, 0),
+    new THREE.IcosahedronGeometry(0.7, 0),
+  ];
+
+  /* Shared material: dark obsidian-like mineral */
+  const mat = new THREE.MeshStandardMaterial({
+    color:             0x1a2a3e,
+    emissive:          0x05101e,
+    emissiveIntensity: 0.15,
+    metalness:         0.75,
+    roughness:         0.3,
+  });
+
+  /* Build instance data */
+  const TOTAL = 280;
+  const PER_GEO = Math.floor(TOTAL / geos.length);
+
+  const shards = [];
+  const dummy  = new THREE.Object3D();
+
+  const meshes = geos.map(function (geo, gi) {
+    const mesh = new THREE.InstancedMesh(geo, mat, PER_GEO);
+    mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+
+    for (let i = 0; i < PER_GEO; i++) {
+      const sx  = (Math.random() - 0.5) * 130;
+      const sy  = (Math.random() - 0.5) * 75;
+      const sz  = (Math.random() - 0.5) * 90 - 5;
+      const sc  = 0.3 + Math.random() * 1.9;
+      const rx  = Math.random() * Math.PI * 2;
+      const ry  = Math.random() * Math.PI * 2;
+      const rz  = Math.random() * Math.PI * 2;
+
+      shards.push({
+        pos:  new THREE.Vector3(sx, sy, sz),
+        rot:  new THREE.Euler(rx, ry, rz),
+        rs:   new THREE.Vector3(
+          (Math.random() - 0.5) * 0.006,
+          (Math.random() - 0.5) * 0.009,
+          (Math.random() - 0.5) * 0.004
+        ),
+        df:   new THREE.Vector2(Math.random() * 0.4 + 0.1, Math.random() * 0.3 + 0.08),
+        da:   new THREE.Vector2(
+          (Math.random() - 0.5) * 3.5,
+          (Math.random() - 0.5) * 2.5
+        ),
+        scale: sc,
+        mi:   gi,
+      });
+
+      dummy.position.set(sx, sy, sz);
+      dummy.rotation.set(rx, ry, rz);
+      dummy.scale.setScalar(sc);
+      dummy.updateMatrix();
+      mesh.setMatrixAt(i, dummy.matrix);
+    }
+
+    mesh.instanceMatrix.needsUpdate = true;
+    scene.add(mesh);
+    return mesh;
+  });
+
+  /* Resize handling */
+  function onResize() {
+    const w = canvas.clientWidth;
+    const h = canvas.clientHeight;
+    if (canvas.width !== w || canvas.height !== h) {
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+  }
+
+  const resizeObs = new ResizeObserver(onResize);
+  resizeObs.observe(canvas);
+  onResize();
+
+  /* Mouse parallax */
+  let mx = 0, my = 0, tx = 0, ty = 0;
+
+  window.addEventListener('mousemove', function (e) {
+    mx = (e.clientX / window.innerWidth - 0.5) * 2;
+    my = (e.clientY / window.innerHeight - 0.5) * 2;
+  }, { passive: true });
+
+  /* Animation */
+  const clock = new THREE.Clock();
+  let rafId;
+
+  function animate() {
+    rafId = requestAnimationFrame(animate);
+    const t = clock.getElapsedTime();
+
+    /* Smooth camera parallax from mouse */
+    tx += (mx - tx) * 0.025;
+    ty += (my - ty) * 0.025;
+    camera.position.x += (tx * 4 - camera.position.x) * 0.04;
+    camera.position.y += (-ty * 2.5 - camera.position.y) * 0.04;
+    camera.lookAt(scene.position);
+
+    /* Animate key light orbit */
+    keyLight.position.x = Math.sin(t * 0.15) * 25;
+    keyLight.position.y = Math.cos(t * 0.2) * 15 + 20;
+
+    /* Update each shard */
+    const counters = [0, 0, 0];
+
+    shards.forEach(function (s) {
+      s.rot.x += s.rs.x;
+      s.rot.y += s.rs.y;
+      s.rot.z += s.rs.z;
+
+      dummy.position.set(
+        s.pos.x + Math.sin(t * s.df.x + s.mi * 1.3) * Math.abs(s.da.x),
+        s.pos.y + Math.cos(t * s.df.y + s.mi * 0.7) * Math.abs(s.da.y),
+        s.pos.z
+      );
+      dummy.rotation.copy(s.rot);
+      dummy.scale.setScalar(s.scale);
+      dummy.updateMatrix();
+
+      const mi  = s.mi;
+      const idx = counters[mi]++;
+      meshes[mi].setMatrixAt(idx, dummy.matrix);
+    });
+
+    meshes.forEach(function (m) { m.instanceMatrix.needsUpdate = true; });
+
+    renderer.render(scene, camera);
+  }
+
+  /* Pause when off-screen */
+  const heroEl = document.querySelector('.hero');
+  const obs = new IntersectionObserver(function (entries) {
+    if (entries[0].isIntersecting) {
+      clock.start();
+      animate();
+    } else {
+      cancelAnimationFrame(rafId);
+    }
+  }, { threshold: 0.01 });
+
+  if (heroEl) obs.observe(heroEl);
+  else animate();
+
+  /* Reduced motion: freeze immediately */
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    cancelAnimationFrame(rafId);
+    renderer.render(scene, camera);
+  }
+})();
+</script>
+</body>
+</html>
